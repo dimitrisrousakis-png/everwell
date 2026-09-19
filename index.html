@@ -747,7 +747,13 @@ function nextTrainingMilestone(n){return TRAINING_MILESTONES.find(x=>x>n)||365}
 function renderJourneyPage(){
  const timeline=document.getElementById('journeyTimeline'); if(!timeline)return;
  const configs=allMonthConfigs();
- timeline.innerHTML=configs.map((m,i)=>`<div class="month-node" style="--month-color:${m.theme?.primary||'#2e6c9e'}"><div class="m-kicker">${i===0?'THE BEGINNING':'MONTH '+(i+1)}</div><h3>${escapeHtml(m.label||m.month)} · ${escapeHtml(m.title)}</h3><p>${m.startDate} → ${m.endDate}</p></div>`).join('')+`<div class="month-node"><div class="m-kicker">THE JOURNEY CONTINUES</div><h3>2027 and beyond…</h3><p>New monthly focus. Same foundations of movement, consistency and progression.</p></div>`;
+ const monthDescriptions={
+  '2026-09':'Build the foundation. Establish consistency while developing core stability and upper-body strength.',
+  '2026-10':'Add lower-body strength with squats while continuing to progress your plank and push-ups.',
+  '2026-11':'Introduce pulling strength to balance the pushing work, strengthening the back, shoulders and arms.',
+  '2026-12':'Strengthen the hips and posterior chain while consolidating the progress made throughout the year.'
+ };
+ timeline.innerHTML=configs.map((m,i)=>`<div class="month-node" style="--month-color:${m.theme?.primary||'#2e6c9e'}"><div class="m-kicker">${i===0?'THE BEGINNING':'MONTH '+(i+1)}</div><h3>${escapeHtml(m.label||m.month)} · ${escapeHtml(m.title)}</h3><p>${m.startDate} → ${m.endDate}</p><p>${escapeHtml(monthDescriptions[m.month]||'Keep building consistency with simple movement and gradual progression.')}</p></div>`).join('')+`<div class="month-node"><div class="m-kicker">THE JOURNEY CONTINUES</div><h3>2027 and beyond…</h3><p>New monthly focus. Same foundations of movement, consistency and progression.</p></div>`;
  const box=document.getElementById('journeyPersonal');
  if(selectedUser){
    const td=lifetimeTrainingDaysV19(selectedUser),next=nextTrainingMilestone(td);
