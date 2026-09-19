@@ -1,0 +1,1713 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EVERWELL</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#13243a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#eef3f7;--card:#fff;--ink:#17212b;--muted:#6b7785;--blue:#2563eb;--red:#dc2626;--green:#159447;--gold:#d97706;--line:#dbe3ea}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--ink)}header{background:linear-gradient(135deg,#13243a,#235587);color:#fff;padding:18px 16px;position:sticky;top:0;z-index:5}header h1{font-size:1.25rem;margin:0}header p{margin:5px 0 0;font-size:.86rem;opacity:.88}nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}button,.btn,select,input{font:inherit}button,.btn{border:0;border-radius:10px;padding:10px 13px;cursor:pointer;font-weight:700}nav button{background:rgba(255,255,255,.14);color:#fff}nav button.active{background:#fff;color:#173657}main{max-width:900px;margin:auto;padding:14px}.hidden{display:none!important}.grid{display:grid;gap:12px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.card{background:var(--card);border-radius:14px;padding:14px;box-shadow:0 3px 12px rgba(20,35,50,.08);border:1px solid rgba(220,228,236,.8)}.big{font-size:1.55rem;font-weight:800}.muted{color:var(--muted);font-size:.88rem}.progress{height:10px;background:#e7edf2;border-radius:99px;overflow:hidden;margin-top:9px}.bar{height:100%;background:var(--blue)}.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}select,input[type=text],input[type=password]{padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff}.user-card{display:block}.user-title-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:6px}.user-title-row h3{margin:0}.open-small{padding:5px 9px;border-radius:8px;font-size:.74rem;line-height:1;background:var(--blue);color:#fff}.badge{display:inline-block;color:#fff;border-radius:99px;padding:4px 9px;font-size:.75rem;font-weight:bold}.badge.Default{background:var(--blue)}.badge.Hard{background:var(--red)}.badge.Modified{background:var(--green)}.status{font-size:.8rem;font-weight:bold}.done{color:var(--green)}.pending{color:var(--gold)}.future{color:var(--muted)}.primary{background:var(--blue);color:#fff}.danger{background:var(--red);color:#fff}.soft{background:#e9eef5;color:#26384a}.profile-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}.day{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;margin:8px 0;padding:11px;background:#fff;border:1px solid var(--line);border-radius:12px}.day.current{border:2px solid var(--blue)}.day.locked{opacity:.55}.day-num{width:34px;height:34px;border-radius:50%;background:#e8eef7;display:grid;place-items:center;font-weight:bold}.day.complete .day-num{background:var(--green);color:#fff}.exercise{font-weight:700}.target{font-size:.83rem;color:var(--muted);margin-top:2px}.check{width:32px;height:32px;border-radius:50%;background:#e8eef2;padding:0}.day.complete .check{background:var(--green);color:#fff}details{margin-top:7px}summary{cursor:pointer;color:var(--blue);font-weight:700;font-size:.86rem}details p{font-size:.88rem;line-height:1.45}.timer{display:flex;gap:7px;align-items:center;margin-top:9px;flex-wrap:wrap}.timer-display{font-weight:bold;min-width:48px}.setup-row{display:grid;grid-template-columns:minmax(150px,1.4fr) minmax(110px,1fr) auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.name-input{width:100%;min-width:0;font-weight:700}.toggle{display:flex;align-items:center;gap:6px;font-size:.85rem}.notice{background:#fff8df;border:1px solid #f1d788;padding:10px;border-radius:10px;font-size:.86rem}.save-indicator{position:fixed;right:12px;bottom:12px;background:#173657;color:#fff;padding:8px 12px;border-radius:999px;font-size:.78rem;font-weight:700;box-shadow:0 3px 10px rgba(0,0,0,.2);opacity:0;transform:translateY(8px);transition:.2s;z-index:20;pointer-events:none}.save-indicator.show{opacity:1;transform:translateY(0)}.cloud-status{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff}.cloud-dot{width:8px;height:8px;border-radius:50%;background:#f59e0b}.cloud-status.online .cloud-dot{background:#22c55e}.cloud-status.error .cloud-dot{background:#ef4444}.cloud-fields{display:grid;gap:9px}.cloud-fields input{width:100%}.cloud-help{font-size:.83rem;line-height:1.45;color:var(--muted)}.leader{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);gap:10px}.rank-main{flex:1;min-width:0}.rank-name-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-weight:700}.rank-row .progress{margin-top:6px}@media(min-width:680px){.stats{grid-template-columns:repeat(4,1fr)}.user-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){header{padding:14px 12px}header h1{font-size:1.08rem}main{padding:10px}.card{padding:12px;border-radius:12px}.setup-row{grid-template-columns:1fr}.setup-row select{width:100%}.stats{gap:8px}.stats .card{padding:10px}.big{font-size:1.3rem}.day{grid-template-columns:32px minmax(0,1fr) 32px;gap:7px;padding:9px}.day-num{width:30px;height:30px}.check{width:30px;height:30px}.controls{align-items:stretch}.controls label,.controls select{width:100%}.profile-head h2{font-size:1.25rem}.leader{font-size:.9rem;gap:8px;align-items:flex-start}.rank-row>strong{padding-top:2px}.badge{font-size:.68rem;padding:3px 7px}}
+.today-btn{background:#0f766e;color:#fff}.day-meta{font-size:.76rem;color:var(--muted);margin-top:4px}.late-label{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:#fff1f2;color:#b91c1c;font-weight:700;font-size:.7rem}.notes-wrap{margin-top:8px}.notes-wrap textarea{width:100%;min-height:64px;resize:vertical;padding:9px;border:1px solid var(--line);border-radius:9px;font:inherit}.pb-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}.pb-row input{width:105px}.sync-footer{max-width:900px;margin:6px auto 18px;padding:0 14px;color:var(--muted);font-size:.72rem;text-align:center}.timer-block{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:7px;padding:7px 0}.timer-label{min-width:48px;font-size:.8rem;font-weight:700}
+.confetti-piece{position:fixed;top:-12px;width:8px;height:14px;z-index:9999;pointer-events:none;animation:confettiFall 1.6s linear forwards}
+@keyframes confettiFall{0%{transform:translate3d(0,-10px,0) rotate(0deg);opacity:1}100%{transform:translate3d(var(--drift),105vh,0) rotate(720deg);opacity:0}}
+
+.celebration-message{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%) scale(.92);z-index:10000;background:rgba(15,35,55,.94);color:white;padding:18px 26px;border-radius:18px;font-size:1.35rem;font-weight:800;text-align:center;box-shadow:0 10px 35px rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:.22s;max-width:calc(100vw - 32px)}
+.celebration-message.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+.rank-row.today-complete{background:#ecfdf5;border-radius:10px;padding-left:8px;padding-right:8px}
+.rank-row.today-complete .rank-name-row span:first-child{color:#166534}
+.pin-modal{position:fixed;inset:0;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;z-index:12000;padding:20px}
+.pin-modal.hidden{display:none}
+.pin-card{background:#fff;border-radius:16px;padding:18px;max-width:320px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.pin-card h3{margin:0 0 10px}
+.pin-card input{width:100%;margin:8px 0 12px}
+.pin-actions{display:flex;gap:8px;justify-content:flex-end}
+.milestone-banner{position:fixed;left:50%;top:30%;transform:translate(-50%,-50%) scale(.92);z-index:10001;background:#7c3aed;color:white;padding:18px 24px;border-radius:18px;font-weight:800;font-size:1.2rem;opacity:0;pointer-events:none;transition:.22s;box-shadow:0 10px 35px rgba(0,0,0,.28);text-align:center;max-width:calc(100vw - 32px)}
+.milestone-banner.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* App polish */
+body{padding-bottom:76px}
+header{position:sticky;top:0}
+header nav{display:none}
+.app-brand{display:flex;align-items:center;gap:10px}
+.app-mark{width:36px;height:36px;border-radius:12px;background:#fff;color:#173657;display:grid;place-items:center;font-weight:900;font-size:.9rem;box-shadow:0 3px 12px rgba(0,0,0,.16)}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:11000;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:7px 8px calc(7px + env(safe-area-inset-bottom))}
+.bottom-nav button{background:transparent;color:#64748b;padding:7px 14px;border-radius:12px;font-size:.76rem;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:82px}
+.bottom-nav button.active{color:#173657;background:#eef4fb}
+.bottom-nav .nav-icon{font-size:1.15rem}
+.leader{background:#fff;border:1px solid var(--line);border-radius:12px;margin:7px 0;padding:11px 12px}
+.leader:nth-child(1){border-color:#f2c94c;background:#fffdf4}
+.leader:nth-child(2){border-color:#cbd5e1}
+.leader:nth-child(3){border-color:#d8b08c}
+.rank-pos{display:inline-grid;place-items:center;min-width:28px;height:28px;border-radius:50%;background:#edf2f7;font-weight:900;margin-right:4px}
+.today-complete{box-shadow:0 0 0 2px rgba(22,163,74,.14) inset}
+.today-chip{display:inline-block;margin-top:5px;background:#dcfce7;color:#166534;padding:3px 7px;border-radius:999px;font-size:.7rem;font-weight:800}
+.stats .card{text-align:center}
+.stat-icon{font-size:1.15rem;margin-bottom:3px}
+.hero-task{background:linear-gradient(145deg,#173657,#275d8c);color:white;border:0;box-shadow:0 10px 28px rgba(23,54,87,.24);margin-top:12px}
+.hero-task .muted{color:rgba(255,255,255,.78)}
+.hero-day{font-size:.75rem;letter-spacing:.12em;font-weight:800;opacity:.8}
+.hero-name{font-size:1.55rem;font-weight:900;margin:5px 0}
+.hero-target{font-size:1.05rem;font-weight:700;opacity:.95}
+.hero-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.hero-actions button{background:#fff;color:#173657}
+.day.complete{background:#f7faf9}
+.day.complete .exercise{color:#50635a}
+.day.current{border:0;box-shadow:0 0 0 2px #2563eb inset}
+.circle-timer{width:122px;height:122px;border-radius:50%;display:grid;place-items:center;margin:12px 0;background:conic-gradient(#60a5fa var(--pct,100%),rgba(255,255,255,.18) 0);position:relative}
+.circle-timer:before{content:"";position:absolute;inset:8px;border-radius:50%;background:#173657}
+.circle-timer span{position:relative;z-index:1;font-size:1.5rem;font-weight:900;color:#fff}
+.dual-timers{display:flex;gap:18px;flex-wrap:wrap;margin-top:8px}
+.side-timer{text-align:center}
+.side-timer .circle-timer{width:96px;height:96px;margin:6px auto}
+.side-timer .circle-timer:before{inset:7px}
+.side-timer .circle-timer span{font-size:1.15rem}
+.celebration-message{top:38%;background:linear-gradient(145deg,#173657,#7c3aed);padding:22px 28px}
+.celebration-sub{display:block;font-size:.8rem;font-weight:600;opacity:.82;margin-top:6px}
+.milestone-banner{top:38%;background:linear-gradient(145deg,#6d28d9,#9333ea)}
+.setup-lock-note{font-size:.76rem;color:var(--muted);margin-top:6px}
+@media(max-width:520px){
+ .bottom-nav button{min-width:72px;padding:6px 9px}
+ .hero-name{font-size:1.35rem}
+ .circle-timer{width:112px;height:112px}
+}
+
+
+:root{
+ --bg:#eef3f7;--card:#fff;--ink:#17212b;--muted:#6b7785;--blue:#2563eb;--red:#dc2626;--green:#159447;--gold:#d97706;--line:#dbe3ea;
+ --header1:#13243a;--header2:#235587;--soft:#e9eef5;--softInk:#26384a;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:520px){}
+
+
+/* SPORTS APP REDESIGN */
+body{
+  background:
+    radial-gradient(circle at top right, rgba(37,99,235,.14), transparent 32%),
+    linear-gradient(180deg,#eef3f7 0%,#f7f9fb 45%,#eef2f6 100%);
+}
+
+header{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(135deg,#07111d 0%,#112941 55%,#174d78 100%);
+  padding:20px 16px 22px;
+}
+header:after{
+  content:"";
+  position:absolute;
+  width:220px;height:220px;border-radius:50%;
+  right:-90px;top:-110px;
+  border:28px solid rgba(255,255,255,.05);
+}
+.app-brand{position:relative;z-index:2}
+.app-mark{
+  width:48px;height:48px;border-radius:14px;
+  background:linear-gradient(145deg,#ffffff,#d9e9f7);
+  font-size:1rem;letter-spacing:.04em;
+}
+header h1{font-size:1.45rem;letter-spacing:.06em;font-weight:900}
+header .cloud-status{position:relative;z-index:2}
+.sport-hero{
+  margin:-6px -2px 14px;
+  background:linear-gradient(135deg,#0b1c2e,#15466d);
+  color:white;border-radius:20px;padding:18px;
+  box-shadow:0 16px 40px rgba(8,30,50,.22);
+  position:relative;overflow:hidden;
+}
+.sport-hero:after{
+  content:"";
+  position:absolute;right:-42px;bottom:-52px;width:150px;height:150px;
+  border-radius:50%;border:24px solid rgba(255,255,255,.06);
+}
+.sport-kicker{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800;opacity:.72}
+.sport-title{font-size:2rem;line-height:1;font-weight:950;margin:8px 0 10px;letter-spacing:-.03em}
+.sport-sub{font-size:.9rem;opacity:.82;max-width:540px}
+.team-pulse{
+  margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1
+}
+.pulse-chip{
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:999px;padding:7px 10px;font-size:.78rem;font-weight:800
+}
+.section-title{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin:18px 2px 10px
+}
+.section-title h3{margin:0;font-size:1rem;letter-spacing:.04em;text-transform:uppercase}
+.section-title .eyebrow{font-size:.72rem;color:var(--muted);font-weight:800}
+#homePage>.card:first-of-type{
+  background:transparent;border:0;box-shadow:none;padding:0
+}
+#leaderboard{display:grid;gap:9px}
+.leader.participation-row{
+  border:0;border-radius:16px;
+  box-shadow:0 8px 22px rgba(25,45,65,.08);
+  padding:13px 14px;
+  background:linear-gradient(180deg,#fff,#f9fbfd);
+}
+
+.participation-row .rank-main{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.participation-row .rank-name-row{flex:1}
+.participation-row .rank-name-row>span:first-child{
+  font-size:1.02rem;font-weight:900;letter-spacing:.01em
+}
+.open-small{
+  text-transform:uppercase;letter-spacing:.06em;font-size:.68rem;
+  background:#0f67a7;color:white;padding:6px 10px
+}
+.today-chip{
+  background:#d8fbe7;color:#116b3c;
+  padding:5px 8px;font-size:.68rem
+}
+.status.pending{
+  background:#fff4dc;color:#8a5a00;padding:5px 8px;border-radius:999px;
+  display:inline-block;font-size:.68rem;font-weight:800
+}
+.participation-row>strong{
+  font-size:1.05rem;color:#173657;
+  background:#edf4fb;padding:7px 9px;border-radius:10px
+}
+
+.stats{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px
+}
+.stats .card{
+  border:0;border-radius:16px;padding:13px 8px;
+  box-shadow:0 8px 22px rgba(25,45,65,.07)
+}
+.stats .big{font-size:1.35rem;font-weight:950}
+.stat-icon{font-size:1.05rem}
+.hero-task{
+  border-radius:20px;padding:18px;
+  background:linear-gradient(135deg,#0d2235,#18567f);
+  box-shadow:0 16px 35px rgba(20,65,95,.24)
+}
+.hero-day{font-size:.7rem;letter-spacing:.18em}
+.hero-name{font-size:1.75rem}
+.hero-target{font-size:1.15rem}
+.hero-actions button{
+  background:#fff;color:#0d3553;text-transform:uppercase;letter-spacing:.05em
+}
+.day{
+  border:0;border-radius:16px;padding:13px 12px;
+  box-shadow:0 6px 18px rgba(20,35,50,.06)
+}
+.day.current{
+  box-shadow:0 0 0 2px #2d7fbd inset,0 8px 22px rgba(45,127,189,.14)
+}
+.day.complete{opacity:.82}
+.day-num{
+  background:#e6eef5;font-weight:900
+}
+.circle-timer{
+  box-shadow:0 10px 24px rgba(0,0,0,.18)
+}
+.profile-head h2{font-size:1.7rem;letter-spacing:-.02em}
+.profile-head .badge{padding:5px 9px}
+.bottom-nav{
+  box-shadow:0 -8px 24px rgba(15,35,55,.10)
+}
+.bottom-nav button{
+  font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:.65rem
+}
+#setupPage .card{
+  border-radius:18px;border:0;box-shadow:0 8px 24px rgba(20,35,50,.08)
+}
+.setup-row{
+  background:rgba(255,255,255,.42);
+  border-radius:12px;padding:10px;margin-bottom:6px;border:1px solid var(--line)
+}
+
+@media(max-width:520px){
+  main{padding:10px 10px 18px}
+  .sport-title{font-size:1.65rem}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .participation-row{padding:12px!important}
+  .participation-row .rank-main{align-items:flex-start}
+  .participation-row>strong{font-size:.92rem}
+  .hero-name{font-size:1.45rem}
+}
+
+
+/* v7 clean challenge header */
+.sport-hero{display:none!important}
+.clean-challenge-header{
+  display:flex;align-items:center;gap:18px;padding:18px 4px 20px;background:transparent;
+}
+.challenge-icon{
+  width:72px;height:72px;border-radius:18px;object-fit:cover;flex:0 0 auto;
+  box-shadow:0 5px 16px rgba(23,54,87,.14);
+}
+.challenge-heading{min-width:0;flex:1}
+.clean-kicker{font-size:.76rem;font-weight:900;letter-spacing:.16em;color:#6f7f90;margin-bottom:4px}
+.clean-title{font-size:clamp(1.45rem,4vw,2.25rem);line-height:1.05;font-weight:950;color:#10263c}
+.clean-pulse{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+.clean-pulse .pulse-chip{background:#eef3f7;color:#173657;border:1px solid #e0e8ef;box-shadow:none}
+.group-progress-line{height:5px;background:#e6edf3;border-radius:999px;margin-top:12px;overflow:hidden}
+.group-progress-line>div{height:100%;width:0;background:#2c7fb8;border-radius:999px;transition:width .25s ease}
+
+/* 30 day journey */
+.journey-strip{display:grid;grid-template-columns:repeat(15,1fr);gap:5px;margin:12px 0 14px}
+.journey-dot{
+  aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.66rem;font-weight:800;background:#edf2f6;color:#617487;border:1px solid #e1e8ee;
+}
+.journey-dot.done{background:#1f8f62;color:white;border-color:#1f8f62}
+.journey-dot.rest{background:#f7f1e7;color:#8a6a2f}
+.journey-dot.next{outline:2px solid #2587c8;outline-offset:2px;color:#173657}
+
+/* workout companion */
+.workout-companion{background:#fff;border:1px solid #dfe8ef;border-radius:20px;padding:18px;margin:0 0 14px;box-shadow:0 8px 22px rgba(23,54,87,.07)}
+.workout-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:14px}
+.workout-day{font-size:.75rem;letter-spacing:.14em;font-weight:900;color:#6d7d8d}
+.workout-title{font-size:1.35rem;font-weight:900;color:#132b43;margin-top:3px}
+.exercise-step{border-top:1px solid #edf1f4;padding:14px 0}
+.exercise-step:first-of-type{border-top:0}
+.step-label{font-size:.72rem;letter-spacing:.12em;font-weight:900;color:#728292}
+.step-target{font-size:1.15rem;font-weight:850;margin:3px 0 10px}
+.push-counter{display:flex;align-items:center;gap:10px}
+.push-count{font-size:1.5rem;font-weight:900;min-width:80px;text-align:center}
+.counter-btn{width:44px;height:44px;border-radius:12px;font-size:1.2rem}
+.step-done{display:inline-flex;align-items:center;gap:6px;font-weight:800;color:#1f8f62;margin-left:8px}
+.complete-day-btn{width:100%;margin-top:10px;padding:13px 16px;font-size:1rem}
+.complete-day-btn:disabled{opacity:.45}
+.recovery-box{text-align:center;padding:8px 0 2px}
+.recovery-icon{font-size:2rem;margin-bottom:5px}
+
+@media(max-width:620px){
+  .clean-challenge-header{align-items:flex-start;gap:12px;padding-top:12px}
+  .challenge-icon{width:54px;height:54px;border-radius:14px}
+  .clean-title{font-size:1.35rem}
+  .clean-kicker{font-size:.65rem}
+  .clean-pulse{gap:5px;margin-top:9px}
+  .clean-pulse .pulse-chip{font-size:.72rem;padding:6px 8px}
+  .journey-strip{grid-template-columns:repeat(10,1fr)}
+}
+
+
+/* v8: no dark top bar; illustration-led challenge header */
+header{display:none!important}
+.clean-challenge-header{
+  display:grid;
+  grid-template-columns:minmax(220px,34%) 1fr;
+  align-items:center;
+  gap:24px;
+  padding:18px 0 22px;
+  background:transparent;
+}
+.challenge-hero-visual{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.challenge-hero-image{
+  display:block;
+  width:100%;
+  max-height:230px;
+  object-fit:contain;
+  object-position:left center;
+}
+.challenge-heading{min-width:0}
+.clean-kicker{
+  font-size:.78rem;
+  font-weight:900;
+  letter-spacing:.16em;
+  color:#7b8793;
+  margin-bottom:6px;
+}
+.clean-title{
+  font-size:clamp(1.55rem,4vw,2.4rem);
+  line-height:1.04;
+  font-weight:950;
+  color:#10263c;
+}
+.clean-pulse{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.clean-pulse .pulse-chip,
+.light-cloud{
+  background:#eef3f7;
+  color:#173657;
+  border:1px solid #e0e8ef;
+  box-shadow:none;
+}
+.light-cloud{display:inline-flex}
+.light-cloud .cloud-dot{background:#f59e0b}
+.light-cloud.online .cloud-dot{background:#22c55e}
+.light-cloud.error .cloud-dot{background:#ef4444}
+.group-progress-line{
+  height:6px;
+  background:#e6edf3;
+  border-radius:999px;
+  margin-top:12px;
+  overflow:hidden;
+}
+.group-progress-line>div{
+  height:100%;
+  width:0;
+  background:#2c7fb8;
+  border-radius:999px;
+  transition:width .25s ease;
+}
+
+@media(max-width:700px){
+  .clean-challenge-header{
+    grid-template-columns:110px 1fr;
+    gap:12px;
+    align-items:center;
+    padding-top:10px;
+  }
+  .challenge-hero-image{max-height:120px}
+  .clean-title{font-size:1.3rem}
+  .clean-kicker{font-size:.64rem}
+  .clean-pulse{grid-column:1/-1;margin-top:8px}
+}
+@media(max-width:480px){
+  .clean-challenge-header{grid-template-columns:92px 1fr}
+  .challenge-hero-image{max-height:104px}
+  .clean-pulse .pulse-chip,.light-cloud{font-size:.7rem;padding:6px 8px}
+}
+
+
+/* v10 hero background */
+.clean-challenge-header{
+  position:relative;
+  margin:0 -18px 24px;
+  padding:28px 24px 26px;
+  border-radius:0 0 26px 26px;
+  background:
+    radial-gradient(circle at 18% 28%, rgba(255,255,255,.82) 0 12%, transparent 32%),
+    linear-gradient(120deg,#e8f4ff 0%,#d9efff 48%,#bfe2fb 100%);
+  overflow:hidden;
+}
+.clean-challenge-header::before,
+.clean-challenge-header::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.18);
+  pointer-events:none;
+}
+.clean-challenge-header::before{width:320px;height:320px;left:-120px;top:-190px}
+.clean-challenge-header::after{width:220px;height:220px;right:-70px;top:-120px}
+.challenge-hero-visual,.challenge-heading{position:relative;z-index:1}
+.clean-pulse .pulse-chip,.light-cloud{
+  background:rgba(255,255,255,.72);
+  border-color:rgba(255,255,255,.85);
+  backdrop-filter:blur(5px);
+}
+.group-progress-line{background:rgba(255,255,255,.58)}
+@media(max-width:700px){
+  .clean-challenge-header{
+    margin:0 -12px 18px;
+    padding:20px 14px 20px;
+    border-radius:0 0 20px 20px;
+  }
+}
+
+
+/* v11 user-page timer only */
+.user-workout-panel{background:#fff;border:1px solid #dde7ef;border-radius:20px;padding:18px;margin:0 0 16px;box-shadow:0 8px 24px rgba(23,54,87,.07)}
+.user-workout-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.user-workout-card{border-radius:18px;padding:18px;min-height:260px}
+.user-workout-card.plank-card{background:linear-gradient(145deg,#eef7ff,#e4f0fb)}
+.user-workout-card.push-card{background:linear-gradient(145deg,#effcf5,#e3f7ec)}
+.workout-kicker{font-size:.7rem;letter-spacing:.13em;font-weight:900;color:#718294}
+.workout-card-title{font-size:1.25rem;font-weight:950;color:#132b43;margin:4px 0 2px}
+.workout-card-sub{font-size:.85rem;color:#667789;margin-bottom:12px}
+
+
+
+
+
+.sport-phase{text-align:center;font-size:.78rem;font-weight:900;letter-spacing:.08em;color:#2e6c9e;min-height:20px;margin-bottom:8px}
+.timer-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.timer-options{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:.78rem;color:#536577}
+.timer-toggle{display:flex;align-items:center;gap:7px}
+.push-target-big{font-size:3rem;font-weight:950;text-align:center;color:#0f2740;margin:38px 0 4px}
+.push-target-label{text-align:center;font-weight:900;color:#173657;letter-spacing:.06em}
+.push-done-btn{display:block;width:100%;margin-top:30px;padding:14px;background:#19a65b;color:#fff;border-radius:12px;font-size:1rem}
+.push-done-btn.done{background:#147442}
+.side-sequence{text-align:center;font-size:.8rem;color:#627689;margin-top:8px;font-weight:700}
+.workout-complete-btn{width:100%;margin-top:14px;padding:14px;font-size:1rem;border-radius:12px}
+.workout-complete-btn:disabled{opacity:.42}
+@media(max-width:700px){.user-workout-grid{grid-template-columns:1fr}}
+
+
+/* v15 compact workout cards + stable timer ring */
+.user-workout-card{min-height:220px;padding:15px}
+.user-workout-card.push-card{min-height:210px}
+.user-workout-card.plank-card.side-compact{min-height:220px}
+.user-workout-card.side-compact 
+.user-workout-card.side-compact 
+.user-workout-card.side-compact .workout-card-title{font-size:1.08rem}
+.user-workout-card.side-compact .side-sequence{font-size:.74rem;margin-top:5px}
+.push-card .push-target-big{font-size:2.35rem;margin:24px 0 2px}
+.push-card .push-done-btn{margin-top:20px;padding:12px}
+.push-card .workout-card-title{font-size:1.05rem}
+
+
+
+.digital-timer{
+  margin:18px auto 12px;
+  text-align:center;
+  padding:18px 14px;
+  border-radius:16px;
+  background:#f8fbfe;
+  border:1px solid #dbe7f0;
+  max-width:260px;
+}
+.digital-timer-time{
+  font-size:3rem;
+  line-height:1;
+  font-weight:950;
+  color:#0f2740;
+  letter-spacing:.02em;
+}
+.digital-timer-total{
+  margin-top:7px;
+  font-size:.78rem;
+  color:#718294;
+  font-weight:700;
+}
+@media(max-width:700px){
+  .digital-timer{max-width:220px;padding:16px 12px}
+  .digital-timer-time{font-size:2.6rem}
+}
+
+
+/* v18 completion reward cards */
+.reward-overlay{
+  position:fixed; inset:0; z-index:12000; display:none;
+  align-items:center; justify-content:center; padding:24px;
+  background:rgba(9,24,39,.42); backdrop-filter:blur(3px);
+  perspective:1100px;
+}
+.reward-overlay.show{display:flex}
+.reward-card{
+  width:min(360px,calc(100vw - 40px)); min-height:300px;
+  position:relative; transform-style:preserve-3d;
+  transition:transform .7s cubic-bezier(.2,.8,.2,1), opacity .45s ease;
+  cursor:pointer;
+}
+.reward-card.flipped{transform:rotateY(180deg)}
+.reward-card.drop{
+  transform:translateY(120vh) rotate(12deg) rotateY(180deg);
+  opacity:0;
+  transition:transform .65s cubic-bezier(.4,0,1,1),opacity .5s ease;
+}
+.reward-face{
+  position:absolute; inset:0; backface-visibility:hidden;
+  border-radius:26px; padding:28px 24px; box-sizing:border-box;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; color:white;
+  background:linear-gradient(145deg,#173657,#3f6f9d);
+  box-shadow:0 24px 65px rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.22);
+}
+.reward-back{transform:rotateY(180deg);background:linear-gradient(145deg,#173657,#6d4bc3)}
+.reward-card.milestone .reward-face{background:linear-gradient(145deg,#9a6700,#e3a008)}
+.reward-card.month .reward-face{background:linear-gradient(145deg,#8d4b16,#d97706)}
+.reward-icon{font-size:3.1rem;margin-bottom:12px}
+.reward-kicker{font-size:.78rem;font-weight:900;letter-spacing:.16em;text-transform:uppercase;opacity:.86}
+.reward-title{font-size:2rem;line-height:1.05;font-weight:950;margin:10px 0 8px}
+.reward-stat{font-size:1rem;font-weight:800;margin-top:4px}
+.reward-quote{font-size:1.3rem;line-height:1.35;font-weight:850;margin:8px 0 14px}
+.reward-hint{font-size:.75rem;font-weight:700;opacity:.76;margin-top:16px}
+.reward-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-top:14px}
+.reward-summary div{background:rgba(255,255,255,.13);border-radius:14px;padding:11px 8px}
+.reward-summary strong{display:block;font-size:1.3rem}
+.reward-summary span{font-size:.7rem;font-weight:800;opacity:.82}
+@media (prefers-reduced-motion:reduce){
+  .reward-card,.reward-card.drop{transition:none}
+}
+
+
+/* v19 monthly EVERWELL */
+.journey-page-card h2{margin:5px 0 8px}.journey-lead{line-height:1.55;color:#526476}
+.journey-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:18px 0}
+.journey-pillars div{background:#f4f7fa;border:1px solid var(--line);border-radius:14px;padding:13px}
+.journey-pillars strong,.journey-pillars span{display:block}.journey-pillars strong{font-size:.78rem;letter-spacing:.08em}.journey-pillars span{font-size:.82rem;color:#667789;margin-top:4px}
+.month-timeline{display:grid;gap:10px;margin:18px 0}.month-node{border-left:6px solid var(--month-color,#2e6c9e);background:#fff;border-radius:14px;padding:13px 14px;box-shadow:0 2px 10px rgba(20,35,50,.06);border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.month-node .m-kicker{font-size:.72rem;font-weight:900;letter-spacing:.12em;color:#6a7a8a}.month-node h3{margin:3px 0}.month-node p{margin:4px 0;color:#667789;font-size:.86rem}
+.journey-personal{margin-top:18px;background:#eef5fb;border-radius:16px;padding:16px}.journey-personal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.journey-personal-grid div{text-align:center;background:#fff;border-radius:12px;padding:10px}.journey-personal-grid strong{display:block;font-size:1.35rem}.journey-personal-grid span{font-size:.7rem;color:#6b7b8b;font-weight:800}
+.history-month{margin:10px 0;border:1px solid var(--line);border-left:6px solid var(--month-color,#2e6c9e);border-radius:14px;padding:13px}.history-month h3{margin:0 0 4px}.history-month .history-stats{display:flex;gap:16px;flex-wrap:wrap;margin-top:9px;font-size:.84rem;font-weight:800}.month-admin{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+@media(max-width:560px){.journey-pillars,.journey-personal-grid{grid-template-columns:1fr}.bottom-nav button{min-width:58px;padding:6px 6px;font-size:.68rem}}
+
+
+/* v22: legacy people hero removed */
+.hero-art img.everwell-hero-logo,.everwell-hero-logo{
+  width:min(300px,72vw)!important;height:auto!important;max-height:260px!important;
+  object-fit:contain!important;border-radius:24px!important;background:#fff!important;
+  box-shadow:0 10px 32px rgba(20,55,65,.10)!important;padding:8px!important;
+}
+.hero-art{display:flex!important;align-items:center!important;justify-content:center!important}
+
+
+/* v23 clean header: one EVERWELL identity only */
+.everwell-brand{display:none!important}
+.hero-art{display:flex!important;align-items:center!important;justify-content:center!important}
+.hero-art .everwell-hero-logo{
+  display:block!important;
+  width:min(310px,76vw)!important;
+  height:auto!important;
+  max-height:280px!important;
+  object-fit:contain!important;
+  background:#fff!important;
+  border-radius:24px!important;
+  padding:6px!important;
+  box-shadow:0 8px 28px rgba(22,62,72,.08)!important;
+}
+
+</style>
+<!-- BUILD: plank-push-v10-blue-hero -->
+<!-- BUILD: everwell-v24-github -->
+</head>
+<body class="">
+<main>
+<section id="homePage">
+<div class="clean-challenge-header">
+  <div class="challenge-hero-visual">
+    <img class="everwell-hero-logo" src="everwell-logo.png" alt="EVERWELL logo">
+  </div>
+  <div class="challenge-heading">
+
+
+    <div class="clean-kicker">ONGOING HEALTH & STRENGTH JOURNEY</div>
+    <div class="clean-title">SEPTEMBER · PLANK + PUSH UPS</div>
+    <div class="team-pulse clean-pulse">
+      <span class="pulse-chip" id="heroActive">👥 0 active</span>
+      <span class="pulse-chip" id="heroToday">✅ 0 completed today</span>
+      <span class="pulse-chip" id="heroGroup">🔥 0% group progress</span>
+      <span id="cloudStatus" class="cloud-status light-cloud"><span class="cloud-dot"></span><span id="cloudStatusText">Connecting…</span></span>
+    </div>
+    <div class="group-progress-line"><div id="heroProgressBar"></div></div>
+  </div>
+</div>
+<div id="beforeStart" class="notice hidden">The challenge begins on 5 September 2026. Setup can be completed now.</div>
+
+<div class="section-title"><h3>Team Participation</h3><span class="eyebrow">Consistency first</span></div><div id="leaderboard"></div>
+<div class="section-title"><h3>Team Pulse</h3><span class="eyebrow">Live challenge stats</span></div>
+<div class="grid stats"><div class="card"><div class="stat-icon">📅</div><div class="muted">Program day</div><div id="statDay" class="big">—</div></div><div class="card"><div class="stat-icon">👥</div><div class="muted">Active users</div><div id="statUsers" class="big">0</div></div><div class="card"><div class="stat-icon">📈</div><div class="muted">Group progress</div><div id="statProgress" class="big">0%</div></div><div class="card"><div class="stat-icon">✅</div><div class="muted">Completed today</div><div id="statToday" class="big">0/0</div></div></div>
+</section>
+
+<section id="overviewPage" class="hidden">
+<div class="card">
+<div class="profile-head">
+<div>
+<h2 style="margin:0">Challenge scope</h2>
+<p class="muted" style="margin-top:8px">A 30-day plank and push-up challenge built around consistency, core strength, upper-body strength, recovery, and participation.</p>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="today-btn" onclick="jumpToToday()">Today</button><button class="soft" onclick="showPage('home')">← Group</button></div>
+</div>
+
+<h3>How it works</h3>
+<p>Each active participant follows one of three progressive programs over 30 days. Every day includes one plank exercise, a recovery day, or a short circuit. Participants mark each day complete on their individual page, and progress is saved automatically in the browser.</p>
+
+<h3>Progression</h3><p>Alternate between forearm plank and side plank sessions, add progressive push-ups, and use planned recovery days. Forearm plank builds from 60 to 120 seconds; side plank remains 30 seconds per side; push-ups build from 10 to 20.</p><h3>Challenge goals</h3>
+<p>Improve core endurance, body control, posture, shoulder stability, and consistency. The challenge is not a competition based on absolute hold time. Team participation reflects completed days, so every program is treated fairly.</p>
+
+<h3>Safety</h3>
+<p>Good form is more important than duration. Stop an exercise if you feel sharp pain, numbness, dizziness, or unusual discomfort. Longer holds may be divided into shorter sets when form begins to break down.</p>
+
+<h3>Schedule</h3>
+<p>The challenge begins on <strong>5 September 2026</strong> and runs for 30 days.</p>
+</div>
+</section>
+
+
+<section id="journeyPage" class="hidden">
+ <div class="card journey-page-card">
+  <div class="clean-kicker">THE EVERWELL JOURNEY</div>
+  <h2>Stronger every month. One training day at a time.</h2>
+  <p class="journey-lead">This began as a 30-day challenge and is becoming an ongoing health and strength journey built around consistency, simple movement and gradual progression.</p>
+  <div class="journey-pillars">
+   <div><strong>CONSISTENCY</strong><span>Keep showing up.</span></div>
+   <div><strong>PROGRESSION</strong><span>Build gradually.</span></div>
+   <div><strong>LONGEVITY</strong><span>Strength for the years ahead.</span></div>
+  </div>
+  <div id="journeyTimeline" class="month-timeline"></div>
+  <div id="journeyPersonal" class="journey-personal"></div>
+ </div>
+</section>
+
+<section id="historyPage" class="hidden">
+ <div class="card">
+  <div class="clean-kicker">PROGRAM HISTORY</div>
+  <h2 style="margin-top:4px">Our journey so far</h2>
+  <p class="muted">September progress is read directly from the original challenge data. Future months are stored separately and never replace September.</p>
+  <div id="historyMonths"></div>
+ </div>
+</section>
+
+<section id="profilePage" class="hidden"><div class="card"><div class="profile-head"><div><h2 id="profileName" style="margin:0"></h2><div id="profileBadge" style="margin-top:7px"></div></div><button class="soft" onclick="showPage('home')">← Group</button></div><div class="grid stats" style="margin-top:14px"><div><div class="muted">Completed</div><div id="pCompleted" class="big"></div></div><div><div class="muted">Progress</div><div id="pProgress" class="big"></div></div><div><div class="muted">Current streak</div><div id="pStreak" class="big"></div></div><div><div class="muted">Best streak</div><div id="pBest" class="big"></div></div></div><div class="progress"><div id="pBar" class="bar"></div></div></div><div id="journeyStrip" class="journey-strip"></div>
+<div id="heroTask"></div>
+<div id="todayWorkout"></div>
+<div id="daysList"></div></section>
+<section id="setupPage" class="hidden"><div class="card"><h2 style="margin-top:0">Challenge setup</h2><p class="muted">Choose each participant’s program and whether the profile is active. Changes save automatically.</p><div id="setupUsers"></div></div><div class="card" style="margin-top:12px"><h3 style="margin-top:0">Backup and administration</h3><div class="controls"><button class="primary" onclick="exportData()">Export backup</button><label class="btn soft">Import backup<input type="file" accept=".json" onchange="importData(event)" hidden></label><button class="danger" onclick="resetAll()">Reset all progress</button></div>
+<div class="month-admin">
+ <h3>Monthly program</h3>
+ <p class="muted">Add a future calendar month without changing existing history or September progress.</p>
+ <div class="controls">
+  <label class="btn primary">Import month JSON<input type="file" accept=".json" onchange="importMonthFile(event)" hidden></label>
+  <button class="soft" onclick="installBuiltInMonths()">Install Oct–Dec 2026</button>
+ </div>
+ <div id="monthImportStatus" class="muted"></div>
+</div><p class="muted"><strong>Automatic saving is active.</strong> Updates are saved immediately in this browser and, when online saving is connected, synchronized to the shared webpage database.</p></div></section>
+</main>
+
+<div id="rewardOverlay" class="reward-overlay" aria-hidden="true">
+  <div id="rewardCard" class="reward-card" role="button" tabindex="0" aria-label="Training completion card. Tap to flip.">
+    <div id="rewardFront" class="reward-face reward-front"></div>
+    <div id="rewardBack" class="reward-face reward-back"></div>
+  </div>
+</div>
+
+<script>
+const USERS=['DIMITRIS','ANGELA','MARY','ANGELOS','ORESTIS','USER1','USER2','USER3','USER4','USER5','USER6','USER7','USER8','USER9','USER10','USER11','USER12','USER13','USER14','USER15','USER16'];
+const NEW_CHALLENGE_SCHEDULE=[["Forearm Plank + Push-ups", "60 sec + 10 push-ups"], ["Side Plank + Push-ups", "30 sec/side + 10 push-ups"], ["Forearm Plank + Push-ups", "60 sec + 10 push-ups"], ["Side Plank + Push-ups", "30 sec/side + 10 push-ups"], ["Recovery", "Rest / light mobility"], ["Forearm Plank + Push-ups", "70 sec + 12 push-ups"], ["Side Plank + Push-ups", "30 sec/side + 12 push-ups"], ["Forearm Plank + Push-ups", "70 sec + 12 push-ups"], ["Side Plank + Push-ups", "30 sec/side + 12 push-ups"], ["Milestone 1", "80 sec plank + 12 push-ups • Optional PB"], ["Recovery", "Rest / light mobility"], ["Side Plank + Push-ups", "30 sec/side + 14 push-ups"], ["Forearm Plank + Push-ups", "80 sec + 14 push-ups"], ["Side Plank + Push-ups", "30 sec/side + 14 push-ups"], ["Forearm Plank + Push-ups", "90 sec + 14 push-ups"], ["Recovery", "Rest / light mobility"], ["Side Plank + Push-ups", "30 sec/side + 16 push-ups"], ["Forearm Plank + Push-ups", "90 sec + 16 push-ups"], ["Side Plank + Push-ups", "30 sec/side + 16 push-ups"], ["Milestone 2", "100 sec plank + 16 push-ups • Optional PB"], ["Recovery", "Rest / light mobility"], ["Side Plank + Push-ups", "30 sec/side + 18 push-ups"], ["Forearm Plank + Push-ups", "100 sec + 18 push-ups"], ["Side Plank + Push-ups", "30 sec/side + 18 push-ups"], ["Forearm Plank + Push-ups", "110 sec + 18 push-ups"], ["Recovery", "Rest / light mobility"], ["Side Plank + Push-ups", "30 sec/side + 20 push-ups"], ["Forearm Plank + Push-ups", "110 sec + 20 push-ups"], ["Recovery", "Rest / mobility • Prepare for final"], ["Final Challenge", "120 sec plank + 20 push-ups"]];
+const SCHEDULES={Default:NEW_CHALLENGE_SCHEDULE,Hard:NEW_CHALLENGE_SCHEDULE,Modified:NEW_CHALLENGE_SCHEDULE};
+const INFO={
+'Forearm Plank + Push-ups':['Hold a strong forearm plank with a neutral spine, then complete the prescribed push-ups with controlled form. Knee or incline push-ups are acceptable alternatives.','https://www.youtube.com/results?search_query=forearm+plank+proper+form'],
+'Side Plank + Push-ups':['Hold the side plank for the full target on the left and right sides separately, then complete the prescribed push-ups.','https://www.youtube.com/results?search_query=side+plank+proper+form'],
+'Milestone 1':['Complete the prescribed plank and push-ups. The personal-best attempt is optional and is not required for completion.',''],
+'Milestone 2':['Complete the prescribed plank and push-ups. The personal-best attempt is optional and is not required for completion.',''],
+'Final Challenge':['Final day: hold a 120-second plank and complete 20 push-ups with good form.',''],
+'Recovery':['Recovery day. Rest or use gentle mobility before the next training block.','']
+};
+const START=new Date(2026,8,5),STORAGE='plankPushChallenge2026V1';let selectedUser=null,timers={};
+function initialState(){const profiles={};USERS.forEach((u,i)=>profiles[u]={displayName:u,active:i<5,profile:u==='ANGELA'?'Modified':'Default',completed:{},completedAt:{},notes:{},personalBest:{}});return{profiles,updatedAt:0,groupMilestones:{}}}
+let state=loadState();
+
+const BUILTIN_MONTHS={"2026-10":{"schemaVersion":1,"month":"2026-10","label":"OCTOBER","title":"Plank + Push-ups + Squats","startDate":"2026-10-01","endDate":"2026-10-31","theme":{"name":"Autumn Orange","primary":"#C86B19","accent":"#E89A45","soft":"#FFF3E7"},"rules":{"foundation":["Plank","Push-ups"],"recoveryCountsAsParticipation":true,"pushupAlternativesAllowed":true},"days":[{"date":"2026-10-01","day":1,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":75,"label":"Forearm Plank"},{"type":"pushups","reps":12,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-10-02","day":2,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":12,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":12,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-03","day":3,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":75,"label":"Forearm Plank"},{"type":"pushups","reps":12,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":12,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-04","day":4,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-10-05","day":5,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":75,"label":"Forearm Plank"},{"type":"pushups","reps":12,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-10-06","day":6,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":12,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":12,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-07","day":7,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":75,"label":"Forearm Plank"},{"type":"pushups","reps":12,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":12,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-08","day":8,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-10-09","day":9,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":80,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-10-10","day":10,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":14,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-11","day":11,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":80,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":14,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-12","day":12,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-10-13","day":13,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":80,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-10-14","day":14,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":14,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-15","day":15,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":85,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":16,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-16","day":16,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-10-17","day":17,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":85,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":16,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-18","day":18,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":16,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-19","day":19,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":85,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":16,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-20","day":20,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-10-21","day":21,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":85,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":16,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-22","day":22,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":18,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-23","day":23,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":90,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":18,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-24","day":24,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-10-25","day":25,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":90,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":18,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-26","day":26,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":18,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-27","day":27,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":90,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":18,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-28","day":28,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-10-29","day":29,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"forearm_plank","seconds":95,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":20,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-30","day":30,"type":"training","title":"Plank + Push-ups + Squats","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":20,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}]},{"date":"2026-10-31","day":31,"type":"training","title":"October Finale","exercises":[{"type":"forearm_plank","seconds":95,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"squats","reps":20,"label":"Squats","alternatives":["Chair squat","Sit-to-stand"]}],"milestone":true}]},"2026-11":{"schemaVersion":1,"month":"2026-11","label":"NOVEMBER","title":"Plank + Push-ups + Dumbbell Rows","startDate":"2026-11-01","endDate":"2026-11-30","theme":{"name":"Deep Purple","primary":"#6650A4","accent":"#8B75C9","soft":"#F2EEFA"},"rules":{"foundation":["Plank","Push-ups"],"recoveryCountsAsParticipation":true,"pushupAlternativesAllowed":true},"days":[{"date":"2026-11-01","day":1,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":85,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-11-02","day":2,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":8,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-03","day":3,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":85,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":8,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-04","day":4,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-11-05","day":5,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":85,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-11-06","day":6,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":8,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-07","day":7,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":85,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":8,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-08","day":8,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-11-09","day":9,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":90,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-11-10","day":10,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":10,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-11","day":11,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":90,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":10,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-12","day":12,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-11-13","day":13,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":90,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-11-14","day":14,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":10,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-15","day":15,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":95,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":12,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-16","day":16,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-11-17","day":17,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":95,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":12,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-18","day":18,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":12,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-19","day":19,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":95,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":12,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-20","day":20,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-11-21","day":21,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":95,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":12,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-22","day":22,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":14,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-23","day":23,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":100,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":14,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-24","day":24,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-11-25","day":25,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":100,"label":"Forearm Plank"},{"type":"pushups","reps":20,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":14,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-26","day":26,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":20,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":14,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-27","day":27,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":100,"label":"Forearm Plank"},{"type":"pushups","reps":20,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":14,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-28","day":28,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-11-29","day":29,"type":"training","title":"Plank + Push-ups + Dumbbell Rows","exercises":[{"type":"forearm_plank","seconds":105,"label":"Forearm Plank"},{"type":"pushups","reps":20,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":14,"alternatives":["Supported one-arm dumbbell row"]}]},{"date":"2026-11-30","day":30,"type":"training","title":"November Finale","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":20,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"dumbbell_rows","label":"Dumbbell Rows","reps_per_side":14,"alternatives":["Supported one-arm dumbbell row"]}],"milestone":true}]},"2026-12":{"schemaVersion":1,"month":"2026-12","label":"DECEMBER","title":"Plank + Push-ups + Glute Bridges","startDate":"2026-12-01","endDate":"2026-12-31","theme":{"name":"Winter Burgundy","primary":"#8B3348","accent":"#B85A70","soft":"#F9EBEF"},"rules":{"foundation":["Plank","Push-ups"],"recoveryCountsAsParticipation":true,"pushupAlternativesAllowed":true},"days":[{"date":"2026-12-01","day":1,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":90,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-12-02","day":2,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":12,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-03","day":3,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":90,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":12,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-04","day":4,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-12-05","day":5,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":90,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-12-06","day":6,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":12,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-07","day":7,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":90,"label":"Forearm Plank"},{"type":"pushups","reps":14,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":12,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-08","day":8,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-12-09","day":9,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":95,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-12-10","day":10,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":14,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-11","day":11,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":95,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":14,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-12","day":12,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-12-13","day":13,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":95,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]}]},{"date":"2026-12-14","day":14,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":14,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-15","day":15,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":100,"label":"Forearm Plank"},{"type":"pushups","reps":16,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":16,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-16","day":16,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-12-17","day":17,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":100,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":16,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-18","day":18,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":16,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-19","day":19,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":100,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":16,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-20","day":20,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-12-21","day":21,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":100,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":16,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-22","day":22,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":18,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-23","day":23,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":105,"label":"Forearm Plank"},{"type":"pushups","reps":18,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":18,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-24","day":24,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-12-25","day":25,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-12-26","day":26,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-12-27","day":27,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":105,"label":"Forearm Plank"},{"type":"pushups","reps":20,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":18,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-28","day":28,"type":"recovery","title":"Recovery Day","note":"Rest, walk, or light mobility. Recovery counts as participation."},{"date":"2026-12-29","day":29,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"side_plank","seconds_per_side":30,"transition_seconds":10,"label":"Side Plank"},{"type":"pushups","reps":20,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":20,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-30","day":30,"type":"training","title":"Plank + Push-ups + Glute Bridges","exercises":[{"type":"forearm_plank","seconds":110,"label":"Forearm Plank"},{"type":"pushups","reps":20,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":20,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}]},{"date":"2026-12-31","day":31,"type":"training","title":"Year-End Strength Finale","exercises":[{"type":"forearm_plank","seconds":120,"label":"Forearm Plank"},{"type":"pushups","reps":20,"label":"Push-ups","alternatives":["Incline push-ups","Knee push-ups"]},{"type":"glute_bridges","reps":25,"label":"Glute Bridges","alternatives":["Reduced-range glute bridge"]}],"milestone":true}]}};
+const PROGRAM_START=new Date(2026,8,5);
+function ensureMonthlyArchitecture(){
+ state.monthConfigs=state.monthConfigs||{};
+ state.monthProgress=state.monthProgress||{};
+ state.programVersion=Math.max(Number(state.programVersion||1),19);
+ USERS.forEach(u=>{state.monthProgress[u]=state.monthProgress[u]||{};});
+}
+function programDay(){
+ const n=new Date(),today=new Date(n.getFullYear(),n.getMonth(),n.getDate());
+ return Math.max(0,Math.floor((today-PROGRAM_START)/86400000)+1);
+}
+function currentMonthKey(){
+ const n=new Date();return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;
+}
+function allMonthConfigs(){
+ const sep={month:'2026-09',label:'SEPTEMBER',title:'Plank + Push-ups',startDate:'2026-09-05',endDate:'2026-09-30',theme:{name:'Foundation Blue',primary:'#2e6c9e'},legacy:true};
+ return [sep,...Object.values(state.monthConfigs||{})].sort((a,b)=>a.month.localeCompare(b.month));
+}
+function monthTrainingCount(u,key){
+ if(key==='2026-09') return Object.values(state.profiles[u]?.completed||{}).filter(Boolean).length;
+ const mp=state.monthProgress?.[u]?.[key]||{};
+ return Object.values(mp.completed||{}).filter(v=>v===true||v?.type==='training').length;
+}
+function monthRecoveryCount(u,key){
+ if(key==='2026-09'){
+  const p=state.profiles[u]||{},sched=SCHEDULES[p.profile||'Default'];
+  return Object.keys(p.completed||{}).filter(k=>p.completed[k]&&/Recovery/i.test(sched[Number(k)-1]?.[0]||'')).length;
+ }
+ const mp=state.monthProgress?.[u]?.[key]||{};
+ return Object.values(mp.completed||{}).filter(v=>v?.type==='recovery').length;
+}
+function lifetimeTrainingDaysV19(u){
+ let total=0;
+ allMonthConfigs().forEach(m=>{
+   if(m.month==='2026-09'){
+    const p=state.profiles[u]||{},sched=SCHEDULES[p.profile||'Default'];
+    total+=Object.keys(p.completed||{}).filter(k=>p.completed[k]&&!/Recovery/i.test(sched[Number(k)-1]?.[0]||'')).length;
+   }else total+=monthTrainingCount(u,m.month);
+ });
+ return total;
+}
+function nextTrainingMilestone(n){return TRAINING_MILESTONES.find(x=>x>n)||365}
+function renderJourneyPage(){
+ const timeline=document.getElementById('journeyTimeline'); if(!timeline)return;
+ const configs=allMonthConfigs();
+ timeline.innerHTML=configs.map((m,i)=>`<div class="month-node" style="--month-color:${m.theme?.primary||'#2e6c9e'}"><div class="m-kicker">${i===0?'THE BEGINNING':'MONTH '+(i+1)}</div><h3>${escapeHtml(m.label||m.month)} · ${escapeHtml(m.title)}</h3><p>${m.startDate} → ${m.endDate}</p></div>`).join('')+`<div class="month-node"><div class="m-kicker">THE JOURNEY CONTINUES</div><h3>2027 and beyond…</h3><p>New monthly focus. Same foundations of movement, consistency and progression.</p></div>`;
+ const box=document.getElementById('journeyPersonal');
+ if(selectedUser){
+   const td=lifetimeTrainingDaysV19(selectedUser),next=nextTrainingMilestone(td);
+   box.innerHTML=`<div class="clean-kicker">YOUR JOURNEY · ${escapeHtml(state.profiles[selectedUser]?.displayName||selectedUser)}</div><div class="journey-personal-grid"><div><strong>${programDay()}</strong><span>PROGRAM DAY</span></div><div><strong>${td}</strong><span>TRAINING DAYS</span></div><div><strong>${configs.filter(m=>monthTrainingCount(selectedUser,m.month)>0).length}</strong><span>MONTHS ACTIVE</span></div></div><div style="margin-top:12px;font-weight:800">Next milestone: ${next} training days · ${Math.max(0,next-td)} to go</div><div class="progress"><div class="bar" style="width:${Math.min(100,Math.round(td/next*100))}%"></div></div>`;
+ }else box.innerHTML=`<div class="clean-kicker">PROGRAM JOURNEY</div><div class="journey-personal-grid"><div><strong>${programDay()}</strong><span>PROGRAM DAY</span></div><div><strong>${configs.length}</strong><span>PROGRAM MONTHS</span></div><div><strong>∞</strong><span>KEEP GOING</span></div></div><p class="muted">Open a participant profile to see their personal training-day milestones.</p>`;
+}
+function renderHistoryPage(){
+ const box=document.getElementById('historyMonths');if(!box)return;
+ const configs=allMonthConfigs();
+ box.innerHTML=configs.map(m=>{
+  let detail='Program month';
+  if(selectedUser){
+   const t=monthTrainingCount(selectedUser,m.month),r=monthRecoveryCount(selectedUser,m.month);
+   detail=`<div class="history-stats"><span>💪 ${t} training days</span><span>🌿 ${r} recovery days</span></div>`;
+  }
+  return `<div class="history-month" style="--month-color:${m.theme?.primary||'#2e6c9e'}"><div class="clean-kicker">${escapeHtml(m.label||m.month)}</div><h3>${escapeHtml(m.title)}</h3><div class="muted">${m.startDate} → ${m.endDate}</div>${detail}</div>`;
+ }).join('');
+}
+function validateMonthConfig(m){
+ if(!m||!/^\d{4}-\d{2}$/.test(m.month||''))throw new Error('Month must use YYYY-MM.');
+ if(!Array.isArray(m.days)||!m.days.length)throw new Error('Month must contain a days array.');
+ if(!m.title)throw new Error('Month title is required.');
+ return true;
+}
+function addMonthConfig(m){
+ validateMonthConfig(m);ensureMonthlyArchitecture();
+Object.values(BUILTIN_MONTHS).forEach(m=>{if(!state.monthConfigs[m.month])state.monthConfigs[m.month]=m;});
+localStorage.setItem(STORAGE,JSON.stringify(state));
+ if(state.monthConfigs[m.month])throw new Error(`${m.month} is already installed. Existing months are protected from overwrite.`);
+ state.monthConfigs[m.month]=m;
+ saveState();return m.month;
+}
+function importMonthFile(e){
+ const f=e.target.files[0];if(!f)return;const r=new FileReader();
+ r.onload=()=>{try{
+   const data=JSON.parse(r.result),arr=Array.isArray(data.months)?data.months:[data];
+   const names=[];
+   arr.forEach(m=>names.push(addMonthConfig(m)));
+   document.getElementById('monthImportStatus').textContent='Imported: '+names.join(', ');
+   renderSetup();
+ }catch(err){alert('Month import stopped: '+err.message)}finally{e.target.value='';}};
+ r.readAsText(f);
+}
+function installBuiltInMonths(){
+ ensureMonthlyArchitecture();const added=[];
+ Object.values(BUILTIN_MONTHS).forEach(m=>{if(!state.monthConfigs[m.month]){state.monthConfigs[m.month]=m;added.push(m.month)}});
+ if(added.length)saveState();
+ document.getElementById('monthImportStatus').textContent=added.length?'Installed: '+added.join(', '):'October–December are already installed. No existing month was changed.';
+}
+
+ensureMonthlyArchitecture();
+function loadState(){
+ try{
+  const loaded=JSON.parse(localStorage.getItem(STORAGE))||initialState();
+  USERS.forEach(u=>{
+   if(!loaded.profiles[u]) loaded.profiles[u]=initialState().profiles[u];
+   if(!loaded.profiles[u].displayName) loaded.profiles[u].displayName=u;
+   if(!loaded.profiles[u].completed) loaded.profiles[u].completed={};if(!loaded.profiles[u].completedAt) loaded.profiles[u].completedAt={};if(!loaded.profiles[u].notes) loaded.profiles[u].notes={};if(!loaded.profiles[u].personalBest) loaded.profiles[u].personalBest={};
+  });
+  if(!loaded.groupMilestones)loaded.groupMilestones={};
+  return loaded;
+ }catch(e){return initialState()}
+}
+function saveState(options={}){
+ try{
+  state.updatedAt=Date.now();
+  localStorage.setItem(STORAGE,JSON.stringify(state));
+  showSaved(options.cloud===false?'Saved locally':'Progress saved');
+  if(options.cloud!==false)queueCloudSave();
+  return true;
+ }catch(e){
+  alert('Progress could not be saved in this browser. Please export a backup.');
+  return false;
+ }
+}
+let saveIndicatorTimer=null;
+function showSaved(message='Progress saved'){
+ const el=document.getElementById('saveIndicator');
+ if(!el)return;
+ el.textContent=message;
+ el.classList.add('show');
+ clearTimeout(saveIndicatorTimer);
+ saveIndicatorTimer=setTimeout(()=>el.classList.remove('show'),1400);
+}
+function challengeDay(){const now=new Date(),diff=Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate())-START)/86400000)+1;return Math.max(0,Math.min(30,diff))}
+function showPage(page){['home','overview','journey','history','profile','setup'].forEach(x=>document.getElementById(x+'Page')?.classList.toggle('hidden',x!==page));['Home','Overview','Profile','Setup'].forEach(x=>document.getElementById('nav'+x)?.classList.toggle('active',x.toLowerCase()===page));
+ const bmap={home:'bnavHome',journey:'bnavJourney',history:'bnavHistory',setup:'bnavSetup'};
+ Object.values(bmap).forEach(id=>document.getElementById(id)?.classList.remove('active'));
+ if(bmap[page])document.getElementById(bmap[page])?.classList.add('active');
+ if(page==='home')renderHome();if(page==='profile'&&selectedUser)renderProfile();if(page==='journey')renderJourneyPage();if(page==='history')renderHistoryPage();if(page==='setup')renderSetup()}
+
+let adminUnlocked=false;
+
+function openSetup(){
+ if(adminUnlocked){
+  showPage('setup');
+  return;
+ }
+ const modal=document.getElementById('pinModal');
+ if(!modal){showPage('setup');return;}
+ modal.classList.remove('hidden');
+ const input=document.getElementById('pinInput');
+ if(input){
+  input.value='';
+  setTimeout(()=>input.focus(),50);
+ }
+}
+
+function closePinModal(){
+ document.getElementById('pinModal')?.classList.add('hidden');
+}
+
+function submitPin(){
+ const input=document.getElementById('pinInput');
+ if(input && input.value==='1234'){
+  adminUnlocked=true;
+  closePinModal();
+  showPage('setup');
+ }else{
+  alert('Incorrect PIN');
+  if(input){input.value='';input.focus();}
+ }
+}
+
+function renderSetup(){
+ const box=document.getElementById('setupUsers');
+ if(!box)return;
+ box.innerHTML='';
+ const ms=document.getElementById('monthImportStatus');if(ms)ms.textContent='Installed months: '+Object.keys(state.monthConfigs||{}).sort().join(', ');
+ USERS.forEach(u=>{
+  const p=state.profiles[u] || initialState().profiles[u];
+  const name=escapeHtml(p.displayName||u);
+  box.insertAdjacentHTML('beforeend',
+   `<div class="setup-row">
+      <input class="name-input" type="text" maxlength="24" value="${name}"
+       aria-label="Participant name"
+       onchange="setName('${u}',this.value)"
+       onblur="setName('${u}',this.value)">
+      <select onchange="setProfile('${u}',this.value)">
+       <option ${p.profile==='Default'?'selected':''}>Default</option>
+       <option ${p.profile==='Hard'?'selected':''}>Hard</option>
+       <option ${p.profile==='Modified'?'selected':''}>Modified</option>
+      </select>
+      <label class="toggle">
+       <input type="checkbox" ${p.active?'checked':''}
+        onchange="setActive('${u}',this.checked)"> Active
+      </label>
+    </div>`);
+ });
+}
+
+function pct(n,d){return d?Math.round(n/d*100):0}function completedCount(u){return Object.values(state.profiles[u].completed||{}).filter(Boolean).length}
+function streaks(u){const c=state.profiles[u].completed||{};let best=0,run=0;for(let i=1;i<=Math.min(challengeDay(),30);i++){if(c[i]){run++;best=Math.max(best,run)}else run=0}return[run,best]}
+function renderHome(){
+ const active=USERS.filter(u=>state.profiles[u]?.active),
+ visible=active,
+ day=challengeDay();
+ document.getElementById('statDay').textContent=programDay()||'Not started';
+ document.getElementById('statUsers').textContent=active.length;
+ const total=active.reduce((s,u)=>s+completedCount(u),0);
+ document.getElementById('statProgress').textContent=pct(total,active.length*30)+'%';
+ const doneToday=day?active.filter(u=>state.profiles[u].completed?.[day]).length:0;
+ document.getElementById('statToday').textContent=doneToday+'/'+active.length;
+ const ha=document.getElementById('heroActive'); if(ha)ha.textContent=`👥 ${active.length} active`;
+ const ht=document.getElementById('heroToday'); if(ht)ht.textContent=`✅ ${doneToday} completed today`;
+ const hg=document.getElementById('heroGroup'); if(hg)hg.textContent=`🔥 ${pct(total,active.length*30)}% group progress`; const hpb=document.getElementById('heroProgressBar'); if(hpb)hpb.style.width=pct(total,active.length*30)+'%';
+ document.getElementById('beforeStart').classList.toggle('hidden',day!==0);
+ document.getElementById('leaderboard').innerHTML=active.map((u)=>{
+  const count=completedCount(u), today=day&&state.profiles[u].completed?.[day];
+  return `<div class="leader participation-row ${today?'today-complete':''}">
+    <div class="rank-main">
+      <div class="rank-name-row"><span>${escapeHtml(state.profiles[u].displayName||u)}</span><button class="open-small" onclick="openProfile('${u}')">Open</button></div>
+      ${today?'<span class="today-chip">✓ Completed today</span>':'<span class="status pending">Today pending</span>'}
+    </div>
+    <strong>${count}/30</strong>
+  </div>`;
+ }).join('')||'<p class="muted">No active users.</p>';
+}
+function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+
+const TRAINING_MILESTONES=[7,15,30,50,75,100,150,200,250,365];
+const MILESTONE_MESSAGES={
+  7:"Seven training days. You are building a habit.",
+  15:"Fifteen days of showing up. Keep building.",
+  30:"Thirty training days. Consistency is becoming strength.",
+  50:"Fifty training days. Strong work, one session at a time.",
+  75:"Seventy-five training days. Your consistency is doing the work.",
+  100:"One hundred training days. A major strength milestone.",
+  150:"One hundred fifty training days. Keep moving forward.",
+  200:"Two hundred training days. Built through consistency.",
+  250:"Two hundred fifty training days. Strength that lasts.",
+  365:"Three hundred sixty-five training days. A remarkable year of showing up."
+};
+const REWARD_QUOTES=[
+  "Strength is built one ordinary day at a time.",
+  "Showing up counts.",
+  "Consistency beats the perfect workout.",
+  "A little stronger. A little steadier. Keep going.",
+  "Your future strength is being built today.",
+  "Small sessions build lasting strength.",
+  "Progress grows from the days you choose to begin.",
+  "Strong habits are built one workout at a time.",
+  "Keep the promise you made to your future self.",
+  "Today's effort becomes tomorrow's strength."
+];
+
+function lifetimeTrainingDays(userKey){
+  // Existing September progress remains the historical base.
+  // Future imported month histories can be added to profile.monthHistory without changing old data.
+  const p=state.profiles[userKey]||{};
+  let total=Object.values(p.completed||{}).filter(Boolean).length;
+  if(p.monthHistory){
+    Object.values(p.monthHistory).forEach(m=>{
+      if(m && Number.isFinite(+m.trainingDays)) total+=+m.trainingDays;
+    });
+  }
+  return total;
+}
+
+function currentMonthMeta(){
+  // Future monthly imports can set state.currentMonth.
+  if(state.currentMonth && state.currentMonth.label){
+    return state.currentMonth;
+  }
+  return {key:"2026-09",label:"SEPTEMBER",title:"PLANK + PUSH UPS",totalDays:30};
+}
+
+function monthTrainingDays(userKey){
+  // In the current legacy September challenge, completed days are the month's historical count.
+  const p=state.profiles[userKey]||{};
+  return Object.values(p.completed||{}).filter(Boolean).length;
+}
+
+function isCurrentMonthComplete(userKey){
+  const meta=currentMonthMeta();
+  const p=state.profiles[userKey]||{};
+  if(meta && meta.key!=="2026-09" && p.months && p.months[meta.key]){
+    const m=p.months[meta.key];
+    const required=Number(meta.requiredTrainingDays||meta.totalDays||0);
+    const done=Object.values(m.completed||{}).filter(Boolean).length;
+    return required>0 && done>=required;
+  }
+  // Do not treat the legacy September 30-day challenge as a calendar-month completion.
+  return false;
+}
+
+let rewardStage=0;
+function hideRewardCard(){
+  const overlay=document.getElementById('rewardOverlay'),card=document.getElementById('rewardCard');
+  if(!overlay||!card)return;
+  card.classList.add('drop');
+  setTimeout(()=>{
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden','true');
+    card.className='reward-card';
+    rewardStage=0;
+  },650);
+}
+function advanceRewardCard(){
+  const card=document.getElementById('rewardCard');
+  if(!card)return;
+  if(rewardStage===0){
+    card.classList.add('flipped');
+    rewardStage=1;
+  }else{
+    hideRewardCard();
+  }
+}
+function showRewardCard(userKey,opts={}){
+  const overlay=document.getElementById('rewardOverlay'),
+        card=document.getElementById('rewardCard'),
+        front=document.getElementById('rewardFront'),
+        back=document.getElementById('rewardBack');
+  if(!overlay||!card||!front||!back)return;
+
+  const name=state.profiles[userKey]?.displayName||userKey;
+  const total=(typeof lifetimeTrainingDaysV19==='function'?lifetimeTrainingDaysV19(userKey):lifetimeTrainingDays(userKey));
+  const month=currentMonthMeta();
+  const monthDays=monthTrainingDays(userKey);
+  const milestone=TRAINING_MILESTONES.includes(total);
+
+  card.className='reward-card'+(opts.monthComplete?' month':milestone?' milestone':'');
+  rewardStage=0;
+
+  if(opts.monthComplete){
+    front.innerHTML=`<div class="reward-icon">🏆</div><div class="reward-kicker">Monthly achievement</div><div class="reward-title">${escapeHtml(month.label)} COMPLETE</div><div class="reward-summary"><div><strong>${monthDays}</strong><span>THIS MONTH</span></div><div><strong>${total}</strong><span>TOTAL TRAINING DAYS</span></div></div><div class="reward-hint">Tap to reveal your message</div>`;
+    back.innerHTML=`<div class="reward-kicker">${escapeHtml(name)}</div><div class="reward-quote">Another month of strength is in the books.</div><div class="reward-stat">${total} lifetime training days</div><div class="reward-hint">Tap to continue ↓</div>`;
+  }else if(milestone){
+    const msg=MILESTONE_MESSAGES[total]||`${total} training days. Keep going.`;
+    front.innerHTML=`<div class="reward-icon">🏅</div><div class="reward-kicker">Milestone reached</div><div class="reward-title">${total} TRAINING DAYS</div><div class="reward-stat">${escapeHtml(name)}</div><div class="reward-hint">Tap to reveal your message</div>`;
+    back.innerHTML=`<div class="reward-icon">💪</div><div class="reward-quote">${escapeHtml(msg)}</div><div class="reward-stat">Next milestone: ${TRAINING_MILESTONES.find(x=>x>total)||"Keep going"}</div><div class="reward-hint">Tap to continue ↓</div>`;
+  }else{
+    const quote=REWARD_QUOTES[(total-1)%REWARD_QUOTES.length];
+    front.innerHTML=`<div class="reward-icon">✓</div><div class="reward-kicker">Training complete</div><div class="reward-title">DAY ${total}</div><div class="reward-stat">${escapeHtml(name)}</div><div class="reward-hint">Tap to reveal your message</div>`;
+    back.innerHTML=`<div class="reward-quote">${escapeHtml(quote)}</div><div class="reward-stat">${total} total training days</div><div class="reward-hint">Tap to continue ↓</div>`;
+  }
+
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden','false');
+  setTimeout(()=>card.focus({preventScroll:true}),50);
+}
+
+(function initRewardCard(){
+  const overlay=document.getElementById('rewardOverlay'),card=document.getElementById('rewardCard');
+  if(!overlay||!card)return;
+  overlay.addEventListener('click',advanceRewardCard);
+  card.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();advanceRewardCard();}
+    if(e.key==='Escape')hideRewardCard();
+  });
+})();
+
+function openProfile(u){selectedUser=u;showPage('profile')}
+const openDetails=new Set();function detailKey(user,day){return `${user}-${day}`}function rememberDetail(user,day,isOpen){const k=detailKey(user,day);if(isOpen)openDetails.add(k);else openDetails.delete(k)}function isDetailOpen(user,day){return openDetails.has(detailKey(user,day))}function preserveOpenDetailsFromDom(){document.querySelectorAll('#daysList details[data-key]').forEach(d=>{if(d.open)openDetails.add(d.dataset.key);else openDetails.delete(d.dataset.key)})}function scheduledDateForDay(n){const d=new Date(START);d.setDate(d.getDate()+n-1);d.setHours(0,0,0,0);return d}function isLateCompletion(u,n){const ts=state.profiles[u]?.completedAt?.[n];if(!ts)return false;const d=new Date(ts);d.setHours(0,0,0,0);return d>scheduledDateForDay(n)}function formatCompletedAt(ts){if(!ts)return '';const d=new Date(ts);return d.toLocaleDateString(undefined,{day:'2-digit',month:'short'})+' '+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}function saveNote(u,n,value){state.profiles[u].notes=state.profiles[u].notes||{};state.profiles[u].notes[n]=value;saveState()}function savePersonalBest(u,n,value){state.profiles[u].personalBest=state.profiles[u].personalBest||{};state.profiles[u].personalBest[n]=String(value||'').trim();saveState()}
+let audioCtx=null;
+function playTimerSound(){
+ try{
+  audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+  const now=audioCtx.currentTime;
+  [880,1175].forEach((freq,i)=>{
+   const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
+   osc.type='sine'; osc.frequency.value=freq;
+   gain.gain.setValueAtTime(0.0001,now+i*0.16);
+   gain.gain.exponentialRampToValueAtTime(0.18,now+i*0.16+0.02);
+   gain.gain.exponentialRampToValueAtTime(0.0001,now+i*0.16+0.22);
+   osc.connect(gain); gain.connect(audioCtx.destination);
+   osc.start(now+i*0.16); osc.stop(now+i*0.16+0.24);
+  });
+ }catch(e){console.warn('Sound unavailable',e);}
+}
+
+let celebrationTimer=null;
+function showCelebrationMessage(userKey){
+ const el=document.getElementById('celebrationMessage');
+ if(!el)return;
+ const name=state.profiles[userKey]?.displayName||userKey;
+ const count=completedCount(userKey);
+ const messages=[
+  `Well done, ${name}!`,
+  `Nice work, ${name}!`,
+  `Great job, ${name}!`,
+  `Daily goal complete, ${name}!`,
+  `Strong work, ${name}!`
+ ];
+ el.innerHTML=messages[Math.floor(Math.random()*messages.length)]+`<span class="celebration-sub">${count} / 30 days complete</span>`;
+ el.classList.add('show');
+ clearTimeout(celebrationTimer);
+ celebrationTimer=setTimeout(()=>el.classList.remove('show'),2400);
+}
+
+function launchConfetti(){
+ for(let i=0;i<70;i++){
+  const p=document.createElement('div');
+  p.className='confetti-piece';
+  p.style.left=(Math.random()*100)+'vw';
+  p.style.setProperty('--drift',((Math.random()*240)-120)+'px');
+  p.style.animationDelay=(Math.random()*0.18)+'s';
+  p.style.width=(6+Math.random()*5)+'px';
+  p.style.height=(8+Math.random()*10)+'px';
+  p.style.background=`hsl(${Math.floor(Math.random()*360)} 85% 55%)`;
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),1900);
+ }
+}
+
+
+function ensureWorkoutState(p){
+  p.workoutParts=p.workoutParts||{};
+  p.pushCounts=p.pushCounts||{};
+}
+function pushTargetFromText(t){
+  const m=String(t||'').match(/(\d+)\s*push-ups/i); return m?+m[1]:0;
+}
+function isSideTarget(t){return /\/side|per side/i.test(String(t||''))}
+function workoutPartsForDay(p,n,target,ex){
+  ensureWorkoutState(p);
+  const k=String(n);
+  const parts=p.workoutParts[k]||{};
+  const recovery=/Recovery/i.test(ex);
+  return {recovery, plank:!!parts.plank, left:!!parts.left, right:!!parts.right, push:!!parts.push};
+}
+function setWorkoutPart(n,part,value=true){
+  const p=state.profiles[selectedUser];ensureWorkoutState(p);
+  const k=String(n);p.workoutParts[k]=p.workoutParts[k]||{};
+  p.workoutParts[k][part]=value;
+  saveState();renderProfile();
+}
+function adjustPushCount(n,delta){
+  const p=state.profiles[selectedUser],target=pushTargetFromText(SCHEDULES[p.profile][n-1][1]);
+  ensureWorkoutState(p);const k=String(n);
+  p.pushCounts[k]=Math.max(0,Math.min(target,(+p.pushCounts[k]||0)+delta));
+  p.workoutParts[k]=p.workoutParts[k]||{};
+  p.workoutParts[k].push=p.pushCounts[k]>=target;
+  saveState();renderProfile();
+}
+function completeWorkoutDay(n){
+  const p=state.profiles[selectedUser],item=SCHEDULES[p.profile][n-1],target=item[1],ex=item[0];
+  ensureWorkoutState(p);const k=String(n),parts=workoutPartsForDay(p,n,target,ex);
+  const ready=parts.recovery || ((isSideTarget(target)?parts.left&&parts.right:parts.plank) && (!pushTargetFromText(target)||parts.push));
+  if(!ready)return;
+  if(!p.completed[n]){
+    p.completed[n]=true;p.completedAt=p.completedAt||{};p.completedAt[n]=new Date().toISOString();
+    const monthComplete=isCurrentMonthComplete(selectedUser);
+    launchConfetti();saveState();renderProfile();
+    setTimeout(()=>showRewardCard(selectedUser,{monthComplete}),180);
+  }
+}
+function renderJourney(p,schedule){
+  const el=document.getElementById('journeyStrip');if(!el)return;
+  const next=schedule.findIndex((_,i)=>!p.completed?.[i+1])+1;
+  el.innerHTML=schedule.map((item,i)=>{
+    const n=i+1,done=!!p.completed?.[n],rest=/Recovery/i.test(item[0]);
+    return `<div class="journey-dot ${done?'done':''} ${rest?'rest':''} ${n===next?'next':''}" title="Day ${n}: ${item[0]}">${done?'✓':n}</div>`;
+  }).join('');
+}
+
+const workoutTimers={};
+const TIMER_PREF_KEY='plankPushTimerPrefs';
+
+function getTimerPrefs(){
+  try{return JSON.parse(localStorage.getItem(TIMER_PREF_KEY))||{sound:true,vibrate:true}}
+  catch(e){return{sound:true,vibrate:true}}
+}
+function setTimerPref(key,value){const p=getTimerPrefs();p[key]=value;localStorage.setItem(TIMER_PREF_KEY,JSON.stringify(p))}
+function beep(freq=880,duration=.12,volume=.12){
+  if(!getTimerPrefs().sound)return;
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    const now=audioCtx.currentTime,osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+    osc.frequency.value=freq;osc.type='sine';
+    gain.gain.setValueAtTime(.0001,now);
+    gain.gain.exponentialRampToValueAtTime(volume,now+.01);
+    gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
+    osc.connect(gain);gain.connect(audioCtx.destination);
+    osc.start(now);osc.stop(now+duration+.02);
+  }catch(e){}
+}
+function vibrate(pattern){if(getTimerPrefs().vibrate&&navigator.vibrate)navigator.vibrate(pattern)}
+function updateSportTimerUI(id,remain,total,label){
+  const text=document.getElementById('sport-time-'+id),
+        phase=document.getElementById('sport-phase-'+id);
+
+  if(text)text.textContent=formatSeconds(Math.max(0,remain));
+  if(phase&&label!==undefined)phase.textContent=label;
+}
+function stopWorkoutTimer(id){const t=workoutTimers[id];if(t&&t.interval){clearInterval(t.interval);t.interval=null}}
+function resetWorkoutTimer(id){
+  const t=workoutTimers[id];if(!t)return;
+  stopWorkoutTimer(id);
+  if('speechSynthesis' in window)window.speechSynthesis.cancel();
+  t.started=false;
+  t.phase='pre';
+  t.phaseTotal=t.workSeconds;
+  t.current=t.workSeconds;
+  t.label='GET READY';
+  t.halfSpoken=false;
+  t.tenSpoken=false;
+  updateSportTimerUI(id,t.workSeconds,t.workSeconds,'GET READY');
+  const b=document.getElementById('sport-main-'+id);if(b)b.textContent='START';
+}
+function finishPlankPart(day,side){
+  const p=state.profiles[selectedUser];ensureWorkoutState(p);const k=String(day);
+  p.workoutParts[k]=p.workoutParts[k]||{};
+  if(side){p.workoutParts[k].left=true;p.workoutParts[k].right=true}else p.workoutParts[k].plank=true;
+  saveState();renderProfile();
+}
+
+let preferredCoachVoice=null;
+
+function chooseFemaleCoachVoice(){
+  if(!('speechSynthesis' in window))return null;
+  const voices=window.speechSynthesis.getVoices()||[];
+  const english=voices.filter(v=>/^en[-_]/i.test(v.lang||''));
+
+  // Prefer commonly available natural-sounding female English voices.
+  const preferredNames=[
+    'Samantha','Ava','Allison','Susan','Zira','Aria','Jenny',
+    'Sonia','Libby','Emma','Karen','Moira','Tessa','Fiona',
+    'Google UK English Female','Google US English'
+  ];
+
+  for(const name of preferredNames){
+    const found=english.find(v=>(v.name||'').toLowerCase().includes(name.toLowerCase()));
+    if(found)return found;
+  }
+
+  // Device/browser fallback: look for likely female voice names.
+  const femaleHints=/female|woman|samantha|ava|allison|susan|zira|aria|jenny|sonia|libby|emma|karen|moira|tessa|fiona/i;
+  return english.find(v=>femaleHints.test(v.name||'')) || english[0] || voices[0] || null;
+}
+
+function refreshCoachVoice(){
+  preferredCoachVoice=chooseFemaleCoachVoice();
+}
+if('speechSynthesis' in window){
+  refreshCoachVoice();
+  window.speechSynthesis.onvoiceschanged=refreshCoachVoice;
+}
+
+function speakCoach(text,onEnd){
+  const prefs=getTimerPrefs();
+  if(!prefs.sound || !('speechSynthesis' in window)){
+    if(onEnd)onEnd();
+    return;
+  }
+  try{
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='en-US';
+    u.rate=1.0;
+    u.pitch=1.06;
+    u.volume=1.0;
+    const voice=preferredCoachVoice||chooseFemaleCoachVoice();
+    if(voice){u.voice=voice;u.lang=voice.lang||'en-US'}
+    if(onEnd)u.onend=onEnd;
+    u.onerror=()=>{if(onEnd)onEnd()};
+    window.speechSynthesis.speak(u);
+  }catch(e){
+    if(onEnd)onEnd();
+  }
+}
+function speakStartCountdown(id){
+  const t=workoutTimers[id];
+  if(!t)return;
+
+  t.phase='countdown';
+  t.current=t.workSeconds;
+  t.phaseTotal=t.workSeconds;
+  t.label='GET READY';
+  updateSportTimerUI(id,t.workSeconds,t.workSeconds,'3');
+
+  const steps=[
+    {text:'1',display:'3'},
+    {text:'2',display:'2'},
+    {text:'3',display:'1'},
+    {text:'GO',display:'GO!'}
+  ];
+
+  let i=0;
+  function next(){
+    if(!workoutTimers[id] || !workoutTimers[id].started)return;
+    if(i>=steps.length){
+      beginActualWorkout(id);
+      return;
+    }
+    const s=steps[i++];
+    updateSportTimerUI(id,t.workSeconds,t.workSeconds,s.display);
+    speakCoach(s.text,()=>setTimeout(next,180));
+  }
+  next();
+}
+function beginActualWorkout(id){
+  const t=workoutTimers[id];
+  if(!t||!t.started)return;
+  t.phase='work';
+  t.phaseTotal=t.workSeconds;
+  t.current=t.workSeconds;
+  t.label=t.type==='side'?'LEFT SIDE':'GO!';
+  t.halfSpoken=false;
+  t.tenSpoken=false;
+  updateSportTimerUI(id,t.current,t.phaseTotal,t.label);
+  runWorkoutTick(id);
+}
+
+function runWorkoutTick(id){
+  const t=workoutTimers[id];if(!t)return;
+  stopWorkoutTimer(id);
+
+  t.interval=setInterval(()=>{
+    // The visible workout time is decremented only after GO.
+    t.current=Math.max(0,t.current-1);
+
+    if(t.phase==='work'){
+      const halfway=Math.floor(t.phaseTotal/2);
+
+      if(!t.halfSpoken && t.current===halfway && t.phaseTotal>20){
+        t.halfSpoken=true;
+        speakCoach('Half way there');
+      }
+      if(!t.tenSpoken && t.current===10 && t.phaseTotal>10){
+        t.tenSpoken=true;
+        speakCoach('Ten seconds to go');
+      }
+    }
+
+    updateSportTimerUI(id,t.current,t.phaseTotal,t.label);
+
+    if(t.current<=0){
+      clearInterval(t.interval);t.interval=null;
+
+      if(t.type==='side' && t.phase==='work' && t.label==='LEFT SIDE'){
+        vibrate([80,80,80]);
+        t.phase='transition';
+        t.phaseTotal=10;
+        t.current=10;
+        t.label='CHANGE SIDE';
+        updateSportTimerUI(id,t.current,t.phaseTotal,t.label);
+        speakCoach('Change side',()=>runWorkoutTick(id));
+        return;
+      }
+
+      if(t.type==='side' && t.phase==='transition'){
+        vibrate(80);
+        t.phase='work';
+        t.phaseTotal=t.workSeconds;
+        t.current=t.workSeconds;
+        t.label='RIGHT SIDE';
+        t.halfSpoken=false;
+        t.tenSpoken=false;
+        updateSportTimerUI(id,t.current,t.phaseTotal,t.label);
+        speakCoach('GO',()=>runWorkoutTick(id));
+        return;
+      }
+
+      // Keep 00:00 visible, then celebrate.
+      t.started=false;
+      updateSportTimerUI(id,0,t.phaseTotal,'✓ COMPLETE');
+      vibrate([120,80,180]);
+      speakCoach('Well done');
+      finishPlankPart(t.day,t.type==='side');
+      showSaved('Plank complete!');
+    }
+  },1000);
+}
+function startOrPauseWorkoutTimer(id){
+  const t=workoutTimers[id];if(!t)return;
+  const b=document.getElementById('sport-main-'+id);
+
+  if(!t.started){
+    t.started=true;
+    t.phase='countdown';
+    t.current=t.workSeconds;
+    t.phaseTotal=t.workSeconds;
+    t.label='STARTING IN…';
+    if(b)b.textContent='PAUSE';
+    updateSportTimerUI(id,t.workSeconds,t.workSeconds,'3');
+    speakStartCountdown(id);
+  }else if(t.interval){
+    stopWorkoutTimer(id);
+    if('speechSynthesis' in window)window.speechSynthesis.pause();
+    if(b)b.textContent='RESUME';
+  }else{
+    if('speechSynthesis' in window)window.speechSynthesis.resume();
+    if(b)b.textContent='PAUSE';
+
+    // If paused during the workout, resume timer.
+    // If paused during the spoken countdown, restart the countdown cleanly.
+    if(t.phase==='countdown'){
+      speakStartCountdown(id);
+    }else{
+      runWorkoutTick(id);
+    }
+  }
+}
+function setupWorkoutTimer(id,day,type,seconds){
+  if(workoutTimers[id])return;
+  workoutTimers[id]={day,type,workSeconds:seconds,phase:'pre',phaseTotal:seconds,current:seconds,label:'GET READY',started:false,interval:null};
+}
+
+function renderTodayWorkout(p,schedule,item){
+ const el=document.getElementById('todayWorkout');if(!el||!item){if(el)el.innerHTML='';return}
+ const n=item.n,ex=item.ex,target=item.target||'',parts=workoutPartsForDay(p,n,target,ex),pushTarget=pushTargetFromText(target);
+ ensureWorkoutState(p);
+
+ if(parts.recovery){
+  el.innerHTML=`<div class="user-workout-panel"><div class="workout-top"><div><div class="workout-day">DAY ${n} · RECOVERY</div><div class="workout-title">Recovery Day</div></div></div><div class="recovery-box"><div class="recovery-icon">🌿</div><div class="muted">Rest or light mobility. Recovery counts as participation.</div></div><button class="primary workout-complete-btn" onclick="completeWorkoutDay(${n})">✓ COMPLETE RECOVERY DAY</button></div>`;
+  return;
+ }
+
+ const side=isSideTarget(target),seconds=parseTime(target),timerId=`${selectedUser}-${n}-SPORT`,prefs=getTimerPrefs();
+ setupWorkoutTimer(timerId,n,side?'side':'plank',seconds);
+ const plankDone=side?(parts.left&&parts.right):parts.plank,pushDone=!!parts.push,ready=plankDone&&(!pushTarget||pushDone);
+ const liveTimer=workoutTimers[timerId];
+ const displaySeconds=plankDone?0:(liveTimer&&liveTimer.started?liveTimer.current:seconds);
+ const displayPhase=plankDone?'✓ COMPLETE':(liveTimer&&liveTimer.started?liveTimer.label:'GET READY');
+ const mainButtonText=plankDone?'START AGAIN':(liveTimer&&liveTimer.started?(liveTimer.interval?'PAUSE':'RESUME'):'START');
+ const sideInfo=side?`<div class="side-sequence"><strong>LEFT ${seconds}s</strong> → 10s transition → <strong>RIGHT ${seconds}s</strong></div>`:'';
+
+ el.innerHTML=`<div class="user-workout-panel">
+  <div class="workout-top"><div><div class="workout-day">DAY ${n} · TODAY'S WORKOUT</div><div class="workout-title">${ex}</div></div></div>
+  <div class="user-workout-grid">
+   <div class="user-workout-card plank-card ${side?'side-compact':''}">
+    <div class="workout-kicker">${side?'SIDE PLANK':'FOREARM PLANK'}</div>
+    <div class="workout-card-title">${side?seconds+' SEC EACH SIDE':seconds+' SEC'}</div>
+    <div class="workout-card-sub">${plankDone?'✓ Plank completed':'Voice-guided countdown and coaching.'}</div>
+    <div class="digital-timer"><div id="sport-time-${timerId}" class="digital-timer-time">${formatSeconds(displaySeconds)}</div><div class="digital-timer-total">${side?'guided side sequence':'target '+formatSeconds(seconds)}</div></div>
+    <div id="sport-phase-${timerId}" class="sport-phase">${displayPhase}</div>
+    ${sideInfo}
+    <div class="timer-actions"><button id="sport-main-${timerId}" class="primary" onclick="startOrPauseWorkoutTimer('${timerId}')">${mainButtonText}</button><button class="soft" onclick="resetWorkoutTimer('${timerId}')">RESET</button></div>
+    <div class="timer-options"><label class="timer-toggle"><input type="checkbox" ${prefs.sound?'checked':''} onchange="setTimerPref('sound',this.checked)"> 🗣️ Coach Voice</label><label class="timer-toggle"><input type="checkbox" ${prefs.vibrate?'checked':''} onchange="setTimerPref('vibrate',this.checked)"> 📳 Vibrate</label></div>
+   </div>
+   <div class="user-workout-card push-card">
+    <div class="workout-kicker">PUSH UPS</div>
+    <div class="workout-card-title">Complete the required reps</div>
+    <div class="push-target-big">${pushTarget}</div><div class="push-target-label">PUSH UPS</div>
+    <button class="push-done-btn ${pushDone?'done':''}" onclick="setWorkoutPart(${n},'push',${!pushDone})">${pushDone?'✓ DONE':'MARK DONE'}</button>
+   </div>
+  </div>
+  <button class="primary workout-complete-btn" ${ready?'':'disabled'} onclick="completeWorkoutDay(${n})">✓ COMPLETE DAY</button>
+ </div>`;
+}
+
+function renderProfile(){preserveOpenDetailsFromDom();const p=state.profiles[selectedUser],schedule=SCHEDULES[p.profile],count=completedCount(selectedUser),[cur,best]=streaks(selectedUser),day=challengeDay();document.getElementById('profileName').textContent=p.displayName||selectedUser;document.getElementById('profileBadge').innerHTML=`<span class="badge ${p.profile}">${p.profile}</span>`;document.getElementById('pCompleted').textContent=count+'/30';document.getElementById('pProgress').textContent=pct(count,30)+'%';document.getElementById('pStreak').textContent=cur;document.getElementById('pBest').textContent=best;document.getElementById('pBar').style.width=pct(count,30)+'%';
+
+ const unfinishedNow=schedule.map((item,idx)=>({n:idx+1,ex:item[0],target:item[1]})).find(x=>!p.completed?.[x.n]);renderJourney(p,schedule);renderTodayWorkout(p,schedule,unfinishedNow);
+
+ const hero=document.getElementById('heroTask');
+ if(hero && unfinishedNow){
+  hero.innerHTML=`<div class="card hero-task">
+   <div class="hero-day">DAY ${unfinishedNow.n}</div>
+   <div class="hero-name">${unfinishedNow.ex}</div>
+   <div class="hero-target">${unfinishedNow.target||'Recovery'}</div>
+   <div class="hero-actions"><button onclick="jumpToDay(${unfinishedNow.n})">Open task</button></div>
+  </div>`;
+ }else if(hero){
+  hero.innerHTML=`<div class="card hero-task"><div class="hero-name">Challenge complete 🎉</div><div class="muted">All 30 days are finished.</div></div>`;
+ }
+const list=document.getElementById('daysList');list.innerHTML='';const items=schedule.map((item,idx)=>({n:idx+1,ex:item[0],target:item[1]})),unfinished=items.filter(x=>!p.completed?.[x.n]).sort((a,b)=>a.n-b.n),finished=items.filter(x=>!!p.completed?.[x.n]).sort((a,b)=>a.n-b.n);[...unfinished,...finished].forEach(({n,ex,target})=>{const completed=!!p.completed?.[n],locked=day===0||n>day,info=INFO[ex]||['',''],youtube=info[1]?`<br><a href="${info[1]}" target="_blank">YouTube demonstration</a>`:'',openAttr=isDetailOpen(selectedUser,n)?' open':'',completedAt=p.completedAt?.[n],late=isLateCompletion(selectedUser,n),meta=completedAt?`<div class="day-meta">Completed ${formatCompletedAt(completedAt)}${late?'<span class="late-label">Late</span>':''}</div>`:'',noteValue=(p.notes?.[n]||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'),pbValue=(p.personalBest?.[n]||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');let timerButton='';if(/\/side|per side/i.test(target)&&/sec|min/i.test(target)){const sec=parseTime(target);timerButton=`<div class="timer-block"><span class="timer-label">Left</span><button class="soft" onclick="startTimer('${selectedUser}-${n}-L',${sec})">Start</button><button class="soft" onclick="stopTimer('${selectedUser}-${n}-L')">Stop</button><span id="timer-${selectedUser}-${n}-L" class="timer-display">${formatSeconds(sec)}</span></div><div class="timer-block"><span class="timer-label">Right</span><button class="soft" onclick="startTimer('${selectedUser}-${n}-R',${sec})">Start</button><button class="soft" onclick="stopTimer('${selectedUser}-${n}-R')">Stop</button><span id="timer-${selectedUser}-${n}-R" class="timer-display">${formatSeconds(sec)}</span></div>`}else if(/sec|min/.test(target)){const sec=parseTime(target);timerButton=`<div id="ring-${selectedUser}-${n}" class="circle-timer"><span id="timer-${selectedUser}-${n}">${formatSeconds(sec)}</span></div><div class="timer"><button class="soft" onclick="startTimer('${selectedUser}-${n}',${sec})">Start timer</button><button class="soft" onclick="stopTimer('${selectedUser}-${n}')">Stop</button></div>`}const pbField=/sec|min/.test(target)?`<div class="pb-row"><label>Personal best <input type="text" value="${pbValue}" placeholder="e.g. 75 sec" onchange="savePersonalBest('${selectedUser}',${n},this.value)"></label></div>`:'';list.insertAdjacentHTML('beforeend',`<div id="day-${n}" class="day ${completed?'complete':''} ${n===day?'current':''} ${locked?'locked':''}"><div class="day-num">${completed?'✓':n}</div><div><div class="exercise">${ex}</div><div class="target">${target||'Rest and mobility'}</div>${meta}<details data-key="${detailKey(selectedUser,n)}"${openAttr} ontoggle="rememberDetail('${selectedUser}',${n},this.open)"><summary>Description</summary><p>${info[0]}${youtube}</p>${timerButton}${pbField}<details class="notes-wrap"><summary>Notes</summary><textarea placeholder="Optional note..." onchange="saveNote('${selectedUser}',${n},this.value)">${noteValue}</textarea></details></details></div><button class="check" ${locked?'disabled':''} onclick="toggleDay(${n})">${completed?'✓':'○'}</button></div>`)})}function jumpToDay(n){
+ const el=document.getElementById('day-'+n);
+ if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function jumpToToday(){if(!selectedUser)return;const p=state.profiles[selectedUser],day=challengeDay();let targetDay=null;if(day>0&&day<=30&&!p.completed?.[day])targetDay=day;if(targetDay===null){for(let n=Math.min(day,30);n>=1;n--){if(!p.completed?.[n]){targetDay=n;break}}}if(targetDay===null){for(let n=Math.max(day+1,1);n<=30;n++){if(!p.completed?.[n]){targetDay=n;break}}}if(targetDay===null)targetDay=Math.min(Math.max(day,1),30);const el=document.getElementById('day-'+targetDay);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}function parseTime(t){let m=t.match(/(\d+)\s*min/),s=t.match(/(\d+)\s*sec/);return m?+m[1]*60:s?+s[1]:0}function formatSeconds(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function startTimer(id,seconds){stopTimer(id);let remain=seconds;document.getElementById('timer-'+id).textContent=formatSeconds(remain);timers[id]=setInterval(()=>{remain--;document.getElementById('timer-'+id).textContent=formatSeconds(Math.max(0,remain));if(remain<=0){stopTimer(id);playTimerSound();showSaved('Timer complete!')}},1000)}function stopTimer(id){if(timers[id])clearInterval(timers[id]);delete timers[id]}
+
+const GROUP_MILESTONES=[25,50,75,100];
+function groupProgressPercent(){
+ const active=USERS.filter(u=>state.profiles[u]?.active);
+ if(!active.length)return 0;
+ const total=active.reduce((sum,u)=>sum+completedCount(u),0);
+ return Math.round(total/(active.length*30)*100);
+}
+function ensureMilestoneState(){
+ if(!state.groupMilestones)state.groupMilestones={};
+}
+let milestoneTimer=null;
+function showGroupMilestone(pct){
+ const el=document.getElementById('milestoneBanner');
+ if(!el)return;
+ el.textContent=`🎉 Team milestone reached: ${pct}% complete!`;
+ el.classList.add('show');
+ clearTimeout(milestoneTimer);
+ milestoneTimer=setTimeout(()=>el.classList.remove('show'),3000);
+ launchConfetti();
+}
+function checkGroupMilestones(){
+ ensureMilestoneState();
+ const pct=groupProgressPercent();
+ let changed=false;
+ GROUP_MILESTONES.forEach(m=>{
+  if(pct>=m && !state.groupMilestones[m]){
+   state.groupMilestones[m]=true;
+   changed=true;
+   showGroupMilestone(m);
+  }
+ });
+ if(changed)saveState();
+}
+
+function toggleDay(n){
+ const p=state.profiles[selectedUser];
+ p.completedAt=p.completedAt||{};
+ const next=!p.completed[n];
+ p.completed[n]=next;
+ if(next){
+  p.completedAt[n]=new Date().toISOString();
+  launchConfetti();
+ }else{
+  delete p.completedAt[n];
+ }
+ saveState();
+ renderProfile();
+ renderHome();
+ if(next){
+   const monthComplete=isCurrentMonthComplete(selectedUser);
+   setTimeout(()=>showRewardCard(selectedUser,{monthComplete}),180);
+   checkGroupMilestones();
+ }
+}
+function setName(u,v){
+ const cleaned=v.trim().slice(0,24);
+ state.profiles[u].displayName=cleaned||u;
+ saveState();
+}
+function setProfile(u,v){state.profiles[u].profile=v;saveState();renderSetup()}function setActive(u,v){state.profiles[u].active=v;saveState();renderSetup()}
+function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='plank-challenge-backup.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const incoming=JSON.parse(r.result);if(!incoming||!incoming.profiles)throw new Error('Missing profiles');state=incoming;ensureMonthlyArchitecture();saveState();renderSetup();alert('Backup imported. Existing data was replaced only by the backup you selected.')}catch(err){alert('Invalid backup file: '+err.message)}};r.readAsText(f)}
+function resetAll(){if(confirm('Reset every user and all completion data?')){state=initialState();saveState();renderSetup()}}
+
+const CLOUD_CONFIG_KEY='plank_push_cloud_config_v1';
+let cloudConfig=loadCloudConfig();
+let cloudSaveTimer=null;
+let cloudPollTimer=null;
+let cloudBusy=false;
+function loadCloudConfig(){
+ const defaults={
+  databaseUrl:'https://group-plank-challenge-default-rtdb.europe-west1.firebasedatabase.app',
+  challengeId:'plank-push-30-day-2026'
+ };
+ try{
+  const saved=JSON.parse(localStorage.getItem(CLOUD_CONFIG_KEY));
+  return saved&&saved.databaseUrl&&saved.challengeId?saved:defaults;
+ }catch(e){
+  return defaults;
+ }
+}
+function normalizeDatabaseUrl(url){return String(url||'').trim().replace(/\/+$/,'')}
+function normalizeChallengeId(id){return String(id||'').trim().replace(/[^a-zA-Z0-9_-]/g,'-').slice(0,50)}
+function cloudEndpoint(){if(!cloudConfig.databaseUrl||!cloudConfig.challengeId)return '';return `${normalizeDatabaseUrl(cloudConfig.databaseUrl)}/plankChallenges/${encodeURIComponent(cloudConfig.challengeId)}.json`}
+function setCloudStatus(mode,text){const el=document.getElementById('cloudStatus'),label=document.getElementById('cloudStatusText');if(!el||!label)return;el.classList.remove('online','error');if(mode)el.classList.add(mode);label.textContent=text}
+function populateCloudSettings(){}
+async function saveCloudSettings(){
+ alert('Cloud settings are managed by the webpage administrator.');
+}
+function disconnectCloud(){
+ alert('Cloud connection is locked for this webpage.');
+}
+
+const V19_BACKUP_FLAG='strength50_v19_remote_backup_done';
+async function createRemoteSafetySnapshot(){
+ if(localStorage.getItem(V19_BACKUP_FLAG)==='1'||!cloudEndpoint())return true;
+ try{
+  const current=await fetch(cloudEndpoint(),{cache:'no-store'}); if(!current.ok)return false;
+  const remote=await current.json(); if(!remote||!remote.profiles)return true;
+  const base=normalizeDatabaseUrl(cloudConfig.databaseUrl);
+  const url=`${base}/plankChallengeBackups/plank-push-30-day-2026-v18-snapshot.json`;
+  const put=await fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(remote)});
+  if(put.ok){localStorage.setItem(V19_BACKUP_FLAG,'1');return true}
+ }catch(e){console.warn('Safety snapshot unavailable',e)}
+ return false;
+}
+
+function queueCloudSave(){if(!cloudEndpoint()){setCloudStatus('','Local only');return}clearTimeout(cloudSaveTimer);cloudSaveTimer=setTimeout(saveToCloud,350)}
+async function saveToCloud(){if(cloudBusy||!cloudEndpoint())return;cloudBusy=true;
+ try{await createRemoteSafetySnapshot()}catch(e){}setCloudStatus('','Saving…');try{const response=await fetch(cloudEndpoint(),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});if(!response.ok){const detail=await response.text();throw new Error(`HTTP ${response.status}: ${detail.slice(0,180)}`)}localStorage.setItem(STORAGE,JSON.stringify(state));setCloudStatus('online','Online · saved');showSaved('Saved online')}catch(error){console.error(error);const msg=String(error&&error.message?error.message:error);setCloudStatus('error','Cloud error · '+msg);showSaved('Saved locally');alert('Firebase save failed: '+msg+'\n\nCheck the database URL and Realtime Database rules.')}finally{cloudBusy=false}}
+async function loadFromCloud(firstConnect=false){
+ if(cloudBusy||!cloudEndpoint())return;
+ cloudBusy=true;
+ try{
+  const response=await fetch(cloudEndpoint(),{cache:'no-store'});
+  if(!response.ok){
+   const detail=await response.text();
+   throw new Error(`HTTP ${response.status}: ${detail.slice(0,180)}`);
+  }
+  const remote=await response.json();
+
+  if(remote&&remote.profiles){
+   if(!remote.groupMilestones)remote.groupMilestones={};
+   const defaults=initialState().profiles;
+   let migrated=false;
+
+   USERS.forEach(u=>{
+    if(!remote.profiles[u]){
+     remote.profiles[u]=defaults[u];
+     migrated=true;
+    }
+    if(!remote.profiles[u].displayName){
+     remote.profiles[u].displayName=u;
+     migrated=true;
+    }
+    if(!remote.profiles[u].completed){
+     remote.profiles[u].completed={};
+     migrated=true;
+    }
+    if(typeof remote.profiles[u].active!=='boolean'){
+     remote.profiles[u].active=false;
+     migrated=true;
+    }
+    if(!remote.profiles[u].profile){
+     remote.profiles[u].profile=u==='ANGELA'?'Modified':'Default';
+     migrated=true;
+    }
+   });
+
+   const remoteTime=Number(remote.updatedAt||0);
+   const localTime=Number(state.updatedAt||0);
+
+   // On initial page load Firebase is authoritative.
+   // During polling, only replace local data when Firebase is newer.
+   if(firstConnect || !localTime || remoteTime>=localTime){
+    state=remote;
+    localStorage.setItem(STORAGE,JSON.stringify(state));
+    const activeTimerRunning=Object.values(workoutTimers||{}).some(t=>t&&t.started);
+    if(selectedUser && !activeTimerRunning)renderProfile();
+    renderHome();
+    if(typeof renderSetup==='function')renderSetup();
+   }
+
+   // Save only the user-slot migration, without replacing existing progress.
+   if(migrated){
+    state.updatedAt=Math.max(Date.now(),remoteTime+1);
+    localStorage.setItem(STORAGE,JSON.stringify(state));
+    cloudBusy=false;
+    await saveToCloud();
+    return;
+   }
+  }else{
+   // Empty database: upload the current local challenge once.
+   state.updatedAt=Date.now();
+   localStorage.setItem(STORAGE,JSON.stringify(state));
+   cloudBusy=false;
+   await saveToCloud();
+   return;
+  }
+
+  setCloudStatus('online','Online · synced');updateLastSynced();
+ }catch(error){
+  console.error(error);
+  const msg=String(error&&error.message?error.message:error);
+  setCloudStatus('error','Cloud error · '+msg);
+  if(firstConnect)alert('Firebase connection failed: '+msg);
+ }finally{
+  cloudBusy=false;
+ }
+}
+function startCloudPolling(){clearInterval(cloudPollTimer);if(!cloudEndpoint())return;cloudPollTimer=setInterval(()=>loadFromCloud(false),8000)}
+function updateLastSynced(){const now=new Date();localStorage.setItem('plankLastSyncedAt',now.toISOString());const el=document.getElementById('syncFooter');if(el)el.textContent='Last synced '+now.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}function renderLastSynced(){const ts=localStorage.getItem('plankLastSyncedAt'),el=document.getElementById('syncFooter');if(!el)return;if(!ts){el.textContent='Last synced: —';return}const d=new Date(ts);el.textContent='Last synced '+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}window.addEventListener('offline',()=>setCloudStatus('error','Saved locally · waiting to sync'));window.addEventListener('online',()=>{setCloudStatus('','Reconnecting…');loadFromCloud(false).then(()=>queueCloudSave())});async function initializeCloud(){if(cloudEndpoint()){setCloudStatus('','Connecting…');await loadFromCloud(true);startCloudPolling()}else setCloudStatus('','Local only')}
+
+
+
+
+
+
+
+document.addEventListener('keydown',e=>{
+ if(e.key==='Enter' && !document.getElementById('pinModal')?.classList.contains('hidden')){
+  submitPin();
+ }
+});
+
+renderLastSynced();
+renderHome();
+initializeCloud();
+if('serviceWorker' in navigator){
+ window.addEventListener('load',async()=>{
+  try{
+   const reg=await navigator.serviceWorker.register('sw.js',{updateViaCache:'none'});
+   await reg.update();
+  }catch(e){console.warn(e)}
+ });
+}
+</script>
+
+
+<div id="pinModal" class="pin-modal hidden">
+  <div class="pin-card">
+    <h3>Admin access</h3>
+    <p class="muted">Enter the Setup PIN.</p>
+    <input id="pinInput" type="password" inputmode="numeric" maxlength="4" placeholder="PIN">
+    <div class="pin-actions">
+      <button class="soft" onclick="closePinModal()">Cancel</button>
+      <button class="primary" onclick="submitPin()">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+<button id="bnavHome" class="active" onclick="showPage('home')"><span class="nav-icon">🏠</span><span>Home</span></button>
+<button id="bnavJourney" onclick="showPage('journey')"><span class="nav-icon">🗺️</span><span>Journey</span></button>
+<button id="bnavHistory" onclick="showPage('history')"><span class="nav-icon">📚</span><span>History</span></button>
+<button id="bnavSetup" onclick="openSetup()"><span class="nav-icon">⚙️</span><span>Setup</span></button>
+</div>
+
+</body></html>
