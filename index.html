@@ -581,6 +581,42 @@ header{display:none!important}
   box-shadow:0 8px 28px rgba(22,62,72,.08)!important;
 }
 
+/* v25 mobile hero fix: keep EVERWELL logo fully visible */
+@media(max-width:700px){
+  .clean-challenge-header{
+    grid-template-columns:96px minmax(0,1fr)!important;
+    gap:12px!important;
+    padding:18px 14px 20px!important;
+    align-items:center!important;
+  }
+  .challenge-hero-visual{
+    width:96px!important;
+    min-width:0!important;
+    overflow:visible!important;
+  }
+  .challenge-hero-visual .everwell-hero-logo{
+    display:block!important;
+    width:96px!important;
+    max-width:96px!important;
+    height:96px!important;
+    max-height:96px!important;
+    object-fit:contain!important;
+    object-position:center!important;
+    border-radius:16px!important;
+    padding:4px!important;
+    box-shadow:0 6px 18px rgba(20,55,65,.10)!important;
+  }
+  .challenge-heading{min-width:0!important;}
+  .clean-title{font-size:1.28rem!important;overflow-wrap:anywhere;}
+  .clean-kicker{font-size:.62rem!important;line-height:1.35;}
+  .clean-pulse{margin-top:10px!important;}
+}
+@media(max-width:420px){
+  .clean-challenge-header{grid-template-columns:82px minmax(0,1fr)!important;padding-left:12px!important;padding-right:12px!important;}
+  .challenge-hero-visual{width:82px!important;}
+  .challenge-hero-visual .everwell-hero-logo{width:82px!important;max-width:82px!important;height:82px!important;max-height:82px!important;}
+  .clean-title{font-size:1.16rem!important;}
+}
 </style>
 <!-- BUILD: plank-push-v10-blue-hero -->
 <!-- BUILD: everwell-v24-github -->
