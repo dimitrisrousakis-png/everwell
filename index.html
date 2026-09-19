@@ -718,7 +718,11 @@ function currentMonthKey(){
 }
 function allMonthConfigs(){
  const sep={month:'2026-09',label:'SEPTEMBER',title:'Plank + Push-ups',startDate:'2026-09-05',endDate:'2026-09-30',theme:{name:'Foundation Blue',primary:'#2e6c9e'},legacy:true};
- return [sep,...Object.values(state.monthConfigs||{})].sort((a,b)=>a.month.localeCompare(b.month));
+ // Built-in months are always available in the Journey, even when an older
+ // Firebase state does not yet contain monthConfigs. Imported/admin versions
+ // override the built-in definition for the same month without touching September.
+ const merged={...BUILTIN_MONTHS,...(state.monthConfigs||{})};
+ return [sep,...Object.values(merged)].sort((a,b)=>a.month.localeCompare(b.month));
 }
 function monthTrainingCount(u,key){
  if(key==='2026-09') return Object.values(state.profiles[u]?.completed||{}).filter(Boolean).length;
