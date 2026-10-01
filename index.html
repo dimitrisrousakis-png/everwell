@@ -619,7 +619,7 @@ header{display:none!important}
 }
 </style>
 <!-- BUILD: plank-push-v10-blue-hero -->
-<!-- BUILD: everwell-v24-github -->
+<!-- BUILD: everwell-v25-wakelock -->
 </head>
 <body class="">
 <main>
@@ -1232,6 +1232,30 @@ function beep(freq=880,duration=.12,volume=.12){
   }catch(e){}
 }
 function vibrate(pattern){if(getTimerPrefs().vibrate&&navigator.vibrate)navigator.vibrate(pattern)}
+// v25: keep the display awake while an Everwell timer is actively running
+let everwellWakeLock=null;
+const everwellActiveTimers=new Set();
+async function requestEverwellWakeLock(timerKey){
+  if(timerKey)everwellActiveTimers.add(timerKey);
+  if(!('wakeLock' in navigator) || document.visibilityState!=='visible')return;
+  try{
+    if(!everwellWakeLock || everwellWakeLock.released){
+      everwellWakeLock=await navigator.wakeLock.request('screen');
+      everwellWakeLock.addEventListener('release',()=>{everwellWakeLock=null;});
+    }
+  }catch(e){console.warn('Screen wake lock unavailable',e);}
+}
+async function releaseEverwellWakeLock(timerKey){
+  if(timerKey)everwellActiveTimers.delete(timerKey);
+  if(everwellActiveTimers.size===0 && everwellWakeLock && !everwellWakeLock.released){
+    try{await everwellWakeLock.release();}catch(e){}
+    everwellWakeLock=null;
+  }
+}
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible' && everwellActiveTimers.size>0)requestEverwellWakeLock();
+});
+
 function updateSportTimerUI(id,remain,total,label){
   const text=document.getElementById('sport-time-'+id),
         phase=document.getElementById('sport-phase-'+id);
@@ -1239,7 +1263,7 @@ function updateSportTimerUI(id,remain,total,label){
   if(text)text.textContent=formatSeconds(Math.max(0,remain));
   if(phase&&label!==undefined)phase.textContent=label;
 }
-function stopWorkoutTimer(id){const t=workoutTimers[id];if(t&&t.interval){clearInterval(t.interval);t.interval=null}}
+function stopWorkoutTimer(id){const t=workoutTimers[id];if(t&&t.interval){clearInterval(t.interval);t.interval=null}releaseEverwellWakeLock('workout:'+id)}
 function resetWorkoutTimer(id){
   const t=workoutTimers[id];if(!t)return;
   stopWorkoutTimer(id);
@@ -1423,6 +1447,7 @@ function startOrPauseWorkoutTimer(id){
   const b=document.getElementById('sport-main-'+id);
 
   if(!t.started){
+    requestEverwellWakeLock('workout:'+id);
     t.started=true;
     t.phase='countdown';
     t.current=t.workSeconds;
@@ -1436,6 +1461,7 @@ function startOrPauseWorkoutTimer(id){
     if('speechSynthesis' in window)window.speechSynthesis.pause();
     if(b)b.textContent='RESUME';
   }else{
+    requestEverwellWakeLock('workout:'+id);
     if('speechSynthesis' in window)window.speechSynthesis.resume();
     if(b)b.textContent='PAUSE';
 
@@ -1516,7 +1542,7 @@ const list=document.getElementById('daysList');list.innerHTML='';const items=sch
  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function jumpToToday(){if(!selectedUser)return;const p=state.profiles[selectedUser],day=challengeDay();let targetDay=null;if(day>0&&day<=30&&!p.completed?.[day])targetDay=day;if(targetDay===null){for(let n=Math.min(day,30);n>=1;n--){if(!p.completed?.[n]){targetDay=n;break}}}if(targetDay===null){for(let n=Math.max(day+1,1);n<=30;n++){if(!p.completed?.[n]){targetDay=n;break}}}if(targetDay===null)targetDay=Math.min(Math.max(day,1),30);const el=document.getElementById('day-'+targetDay);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}function parseTime(t){let m=t.match(/(\d+)\s*min/),s=t.match(/(\d+)\s*sec/);return m?+m[1]*60:s?+s[1]:0}function formatSeconds(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
-function startTimer(id,seconds){stopTimer(id);let remain=seconds;document.getElementById('timer-'+id).textContent=formatSeconds(remain);timers[id]=setInterval(()=>{remain--;document.getElementById('timer-'+id).textContent=formatSeconds(Math.max(0,remain));if(remain<=0){stopTimer(id);playTimerSound();showSaved('Timer complete!')}},1000)}function stopTimer(id){if(timers[id])clearInterval(timers[id]);delete timers[id]}
+function startTimer(id,seconds){stopTimer(id);requestEverwellWakeLock('simple:'+id);let remain=seconds;document.getElementById('timer-'+id).textContent=formatSeconds(remain);timers[id]=setInterval(()=>{remain--;document.getElementById('timer-'+id).textContent=formatSeconds(Math.max(0,remain));if(remain<=0){stopTimer(id);playTimerSound();showSaved('Timer complete!')}},1000)}function stopTimer(id){if(timers[id])clearInterval(timers[id]);delete timers[id];releaseEverwellWakeLock('simple:'+id)}
 
 const GROUP_MILESTONES=[25,50,75,100];
 function groupProgressPercent(){
