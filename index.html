@@ -619,7 +619,7 @@ header{display:none!important}
 }
 </style>
 <!-- BUILD: plank-push-v10-blue-hero -->
-<!-- BUILD: everwell-v26-wakelock-fix -->
+<!-- BUILD: everwell-v27-wakelock-diagnostic -->
 </head>
 <body class="">
 <main>
@@ -1235,15 +1235,28 @@ function vibrate(pattern){if(getTimerPrefs().vibrate&&navigator.vibrate)navigato
 // v25: keep the display awake while an Everwell timer is actively running
 let everwellWakeLock=null;
 const everwellActiveTimers=new Set();
+function setWakeStatus(msg){
+  let el=document.getElementById('everwellWakeStatus');
+  if(!el){
+    el=document.createElement('div');el.id='everwellWakeStatus';
+    el.style.cssText='position:fixed;right:10px;bottom:78px;z-index:9999;background:#173657;color:white;padding:6px 9px;border-radius:10px;font:700 11px system-ui;box-shadow:0 2px 10px rgba(0,0,0,.18)';
+    document.body.appendChild(el);
+  }
+  el.textContent=msg;
+  el.style.display=everwellActiveTimers.size?'block':'none';
+}
 async function requestEverwellWakeLock(timerKey){
   if(timerKey)everwellActiveTimers.add(timerKey);
-  if(!('wakeLock' in navigator) || document.visibilityState!=='visible')return;
+  if(!('wakeLock' in navigator)){setWakeStatus('Screen awake: UNSUPPORTED');return;}
+  if(!window.isSecureContext){setWakeStatus('Screen awake: NEEDS HTTPS');return;}
+  if(document.visibilityState!=='visible'){setWakeStatus('Screen awake: WAITING');return;}
   try{
     if(!everwellWakeLock || everwellWakeLock.released){
       everwellWakeLock=await navigator.wakeLock.request('screen');
-      everwellWakeLock.addEventListener('release',()=>{everwellWakeLock=null;});
+      setWakeStatus('Screen awake: ON');
+      everwellWakeLock.addEventListener('release',()=>{everwellWakeLock=null;if(everwellActiveTimers.size)setWakeStatus('Screen awake: RELEASED');});
     }
-  }catch(e){console.warn('Screen wake lock unavailable',e);}
+  }catch(e){console.warn('Screen wake lock unavailable',e);setWakeStatus('Screen awake: ERROR '+(e.name||''));}
 }
 async function releaseEverwellWakeLock(timerKey){
   if(timerKey)everwellActiveTimers.delete(timerKey);
@@ -1251,6 +1264,7 @@ async function releaseEverwellWakeLock(timerKey){
     try{await everwellWakeLock.release();}catch(e){}
     everwellWakeLock=null;
   }
+  if(everwellActiveTimers.size===0)setWakeStatus('');
 }
 document.addEventListener('visibilitychange',()=>{
   if(document.visibilityState==='visible' && everwellActiveTimers.size>0)requestEverwellWakeLock();
