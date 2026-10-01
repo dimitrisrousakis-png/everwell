@@ -619,7 +619,7 @@ header{display:none!important}
 }
 </style>
 <!-- BUILD: plank-push-v10-blue-hero -->
-<!-- BUILD: everwell-v25-wakelock -->
+<!-- BUILD: everwell-v26-wakelock-fix -->
 </head>
 <body class="">
 <main>
@@ -1263,7 +1263,7 @@ function updateSportTimerUI(id,remain,total,label){
   if(text)text.textContent=formatSeconds(Math.max(0,remain));
   if(phase&&label!==undefined)phase.textContent=label;
 }
-function stopWorkoutTimer(id){const t=workoutTimers[id];if(t&&t.interval){clearInterval(t.interval);t.interval=null}releaseEverwellWakeLock('workout:'+id)}
+function stopWorkoutTimer(id,releaseWake=true){const t=workoutTimers[id];if(t&&t.interval){clearInterval(t.interval);t.interval=null}if(releaseWake)releaseEverwellWakeLock('workout:'+id)}
 function resetWorkoutTimer(id){
   const t=workoutTimers[id];if(!t)return;
   stopWorkoutTimer(id);
@@ -1384,7 +1384,8 @@ function beginActualWorkout(id){
 
 function runWorkoutTick(id){
   const t=workoutTimers[id];if(!t)return;
-  stopWorkoutTimer(id);
+  stopWorkoutTimer(id,false);
+  requestEverwellWakeLock('workout:'+id);
 
   t.interval=setInterval(()=>{
     // The visible workout time is decremented only after GO.
@@ -1434,6 +1435,7 @@ function runWorkoutTick(id){
 
       // Keep 00:00 visible, then celebrate.
       t.started=false;
+      releaseEverwellWakeLock('workout:'+id);
       updateSportTimerUI(id,0,t.phaseTotal,'✓ COMPLETE');
       vibrate([120,80,180]);
       speakCoach('Well done');
