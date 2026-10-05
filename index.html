@@ -617,6 +617,9 @@ header{display:none!important}
   .challenge-hero-visual .everwell-hero-logo{width:82px!important;max-width:82px!important;height:82px!important;max-height:82px!important;}
   .clean-title{font-size:1.16rem!important;}
 }
+
+/* v26 monthly workout boxes */
+.monthly-day-box{align-items:flex-start!important}.monthly-day-content{min-width:0;flex:1}.monthly-exercise-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}.monthly-exercise-card{background:#f5f8fa;border:1px solid #e1e8ee;border-radius:12px;padding:10px;text-align:center}.monthly-exercise-card span{display:block;font-size:.65rem;font-weight:900;letter-spacing:.08em;color:#6c7d8d}.monthly-exercise-card strong{display:block;font-size:1rem;margin-top:4px}.monthly-timer{font-size:1.35rem;font-weight:900;margin:7px 0 5px}.monthly-timer-actions{display:flex;gap:5px;justify-content:center}.monthly-timer-actions button{padding:6px 9px;font-size:.72rem}@media(max-width:560px){.monthly-exercise-grid{grid-template-columns:1fr}.monthly-exercise-card{text-align:left}.monthly-timer-actions{justify-content:flex-start}}
 </style>
 <!-- BUILD: plank-push-v10-blue-hero -->
 <!-- BUILD: everwell-v27-wakelock-diagnostic -->
@@ -1561,7 +1564,25 @@ function renderMonthlyProfile(){
  const cur=days.find(d=>d.day===today)||days.find(d=>!mp.completed?.[d.day])||days[days.length-1];
  document.getElementById('heroTask').innerHTML=cur?`<div class="card hero-task"><div class="hero-day">${m.label} · DAY ${cur.day}</div><div class="hero-name">${escapeHtml(cur.title)}</div><div class="hero-target">${cur.type==='recovery'?'Recovery / light mobility':cur.exercises.map(x=>x.label+(x.seconds?' '+x.seconds+' sec':x.seconds_per_side?' '+x.seconds_per_side+' sec/side':x.reps?' × '+x.reps:'')).join(' · ')}</div></div>`:'';
  document.getElementById('todayWorkout').innerHTML='';
- document.getElementById('daysList').innerHTML=days.map(d=>{const done=!!mp.completed?.[d.day],locked=d.day>today;const target=d.type==='recovery'?(d.note||'Recovery / light mobility'):d.exercises.map(x=>x.label+(x.seconds?' · '+x.seconds+' sec':x.seconds_per_side?' · '+x.seconds_per_side+' sec/side':x.reps?' · '+x.reps+' reps':'')).join(' • ');return `<div class="day ${done?'complete':''} ${d.day===today?'current':''} ${locked?'locked':''}"><div class="day-num">${done?'✓':d.day}</div><div><div class="exercise">${escapeHtml(d.title)}</div><div class="target">${escapeHtml(target)}</div></div><button class="check" ${locked?'disabled':''} onclick="toggleMonthlyDay(${d.day})">${done?'✓':'○'}</button></div>`}).join('');
+ document.getElementById('daysList').innerHTML=days.map(d=>{
+   const done=!!mp.completed?.[d.day],locked=d.day>today;
+   if(d.type==='recovery')return `<div class="day monthly-day-box ${done?'complete':''} ${d.day===today?'current':''} ${locked?'locked':''}"><div class="day-num">${done?'✓':d.day}</div><div class="monthly-day-content"><div class="exercise">Recovery Day</div><div class="target">${escapeHtml(d.note||'Rest, walk, or light mobility.')}</div></div><button class="check" ${locked?'disabled':''} onclick="toggleMonthlyDay(${d.day})">${done?'✓':'○'}</button></div>`;
+   const plank=d.exercises.find(x=>/plank/i.test(x.type||x.label||'')),push=d.exercises.find(x=>/push/i.test(x.type||x.label||'')),third=d.exercises.find(x=>x!==plank&&x!==push);
+   const timerId=`m-${key}-${selectedUser}-${d.day}`;
+   const secs=plank?.seconds||plank?.seconds_per_side||0;
+   const plankText=plank?.seconds_per_side?`${plank.seconds_per_side} sec / side`:`${secs} sec`;
+   return `<div class="day monthly-day-box ${done?'complete':''} ${d.day===today?'current':''} ${locked?'locked':''}">
+    <div class="day-num">${done?'✓':d.day}</div>
+    <div class="monthly-day-content"><div class="exercise">${escapeHtml(d.title)}</div>
+      <div class="monthly-exercise-grid">
+       ${plank?`<div class="monthly-exercise-card"><span>PLANK</span><strong>${escapeHtml(plankText)}</strong><div id="timer-${timerId}" class="monthly-timer">${formatSeconds(secs)}</div><div class="monthly-timer-actions"><button ${locked?'disabled':''} onclick="startTimer('${timerId}',${secs})">Start</button><button class="soft" onclick="stopTimer('${timerId}')">Stop</button></div></div>`:''}
+       ${push?`<div class="monthly-exercise-card"><span>PUSH-UPS</span><strong>${push.reps} reps</strong></div>`:''}
+       ${third?`<div class="monthly-exercise-card"><span>${escapeHtml(third.label.toUpperCase())}</span><strong>${third.reps||''} reps</strong></div>`:''}
+      </div>
+    </div>
+    <button class="check" ${locked?'disabled':''} onclick="toggleMonthlyDay(${d.day})">${done?'✓':'○'}</button>
+   </div>`;
+ }).join('');
  return true;
 }
 function toggleMonthlyDay(day){
