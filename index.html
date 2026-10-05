@@ -947,29 +947,41 @@ function renderSetup(){
 
 function pct(n,d){return d?Math.round(n/d*100):0}function completedCount(u){return Object.values(state.profiles[u].completed||{}).filter(Boolean).length}
 function streaks(u){const c=state.profiles[u].completed||{};let best=0,run=0;for(let i=1;i<=Math.min(challengeDay(),30);i++){if(c[i]){run++;best=Math.max(best,run)}else run=0}return[run,best]}
+function activeMonthConfig(){
+ const key=currentMonthKey();
+ return key==='2026-09'?allMonthConfigs().find(m=>m.month==='2026-09'):(state.monthConfigs?.[key]||BUILTIN_MONTHS[key]||null);
+}
+function monthDayNumber(m){
+ if(!m)return 0;const now=new Date(),start=new Date(m.startDate+'T00:00:00'),end=new Date(m.endDate+'T23:59:59');
+ if(now<start)return 0;if(now>end)return (m.days?.length||30);
+ return Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate())-start)/86400000)+1;
+}
+function monthlyCompletion(u,key,day){
+ return !!state.monthProgress?.[u]?.[key]?.completed?.[day];
+}
 function renderHome(){
- const active=USERS.filter(u=>state.profiles[u]?.active),
- visible=active,
- day=challengeDay();
+ const active=USERS.filter(u=>state.profiles[u]?.active),visible=active;
+ const key=currentMonthKey(),m=activeMonthConfig(),isLegacy=key==='2026-09'||!m;
+ const day=isLegacy?challengeDay():monthDayNumber(m);
+ const totalDays=isLegacy?30:(m.days?.length||30);
+ const title=document.querySelector('.clean-title');
+ if(title&&m)title.textContent=`${m.label} · ${m.title}`;
+ document.documentElement.style.setProperty('--active-month-color',m?.theme?.primary||'#2e6c9e');
  document.getElementById('statDay').textContent=programDay()||'Not started';
  document.getElementById('statUsers').textContent=active.length;
- const total=active.reduce((s,u)=>s+completedCount(u),0);
- document.getElementById('statProgress').textContent=pct(total,active.length*30)+'%';
- const doneToday=day?active.filter(u=>state.profiles[u].completed?.[day]).length:0;
+ const counts=active.map(u=>isLegacy?completedCount(u):Object.values(state.monthProgress?.[u]?.[key]?.completed||{}).filter(Boolean).length);
+ const total=counts.reduce((a,b)=>a+b,0);
+ document.getElementById('statProgress').textContent=pct(total,active.length*totalDays)+'%';
+ const doneToday=day?active.filter(u=>isLegacy?state.profiles[u].completed?.[day]:monthlyCompletion(u,key,day)).length:0;
  document.getElementById('statToday').textContent=doneToday+'/'+active.length;
- const ha=document.getElementById('heroActive'); if(ha)ha.textContent=`👥 ${active.length} active`;
- const ht=document.getElementById('heroToday'); if(ht)ht.textContent=`✅ ${doneToday} completed today`;
- const hg=document.getElementById('heroGroup'); if(hg)hg.textContent=`🔥 ${pct(total,active.length*30)}% group progress`; const hpb=document.getElementById('heroProgressBar'); if(hpb)hpb.style.width=pct(total,active.length*30)+'%';
+ const ha=document.getElementById('heroActive');if(ha)ha.textContent=`👥 ${active.length} active`;
+ const ht=document.getElementById('heroToday');if(ht)ht.textContent=`✅ ${doneToday} completed today`;
+ const hg=document.getElementById('heroGroup');if(hg)hg.textContent=`🔥 ${pct(total,active.length*totalDays)}% group progress`;
+ const hpb=document.getElementById('heroProgressBar');if(hpb)hpb.style.width=pct(total,active.length*totalDays)+'%';
  document.getElementById('beforeStart').classList.toggle('hidden',day!==0);
- document.getElementById('leaderboard').innerHTML=active.map((u)=>{
-  const count=completedCount(u), today=day&&state.profiles[u].completed?.[day];
-  return `<div class="leader participation-row ${today?'today-complete':''}">
-    <div class="rank-main">
-      <div class="rank-name-row"><span>${escapeHtml(state.profiles[u].displayName||u)}</span><button class="open-small" onclick="openProfile('${u}')">Open</button></div>
-      ${today?'<span class="today-chip">✓ Completed today</span>':'<span class="status pending">Today pending</span>'}
-    </div>
-    <strong>${count}/30</strong>
-  </div>`;
+ document.getElementById('leaderboard').innerHTML=active.map((u,idx)=>{
+  const count=counts[idx],today=day&&(isLegacy?state.profiles[u].completed?.[day]:monthlyCompletion(u,key,day));
+  return `<div class="leader participation-row ${today?'today-complete':''}"><div class="rank-main"><div class="rank-name-row"><span>${escapeHtml(state.profiles[u].displayName||u)}</span><button class="open-small" onclick="openProfile('${u}')">Open</button></div>${today?'<span class="today-chip">✓ Completed today</span>':'<span class="status pending">Today pending</span>'}</div><strong>${count}/${totalDays}</strong></div>`;
  }).join('')||'<p class="muted">No active users.</p>';
 }
 function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
@@ -1538,7 +1550,26 @@ function renderTodayWorkout(p,schedule,item){
  </div>`;
 }
 
-function renderProfile(){preserveOpenDetailsFromDom();const p=state.profiles[selectedUser],schedule=SCHEDULES[p.profile],count=completedCount(selectedUser),[cur,best]=streaks(selectedUser),day=challengeDay();document.getElementById('profileName').textContent=p.displayName||selectedUser;document.getElementById('profileBadge').innerHTML=`<span class="badge ${p.profile}">${p.profile}</span>`;document.getElementById('pCompleted').textContent=count+'/30';document.getElementById('pProgress').textContent=pct(count,30)+'%';document.getElementById('pStreak').textContent=cur;document.getElementById('pBest').textContent=best;document.getElementById('pBar').style.width=pct(count,30)+'%';
+function renderMonthlyProfile(){
+ const key=currentMonthKey(),m=activeMonthConfig();if(!m||key==='2026-09')return false;
+ ensureMonthlyArchitecture();const p=state.profiles[selectedUser],days=m.days||[],today=monthDayNumber(m),mp=state.monthProgress[selectedUser][key]=state.monthProgress[selectedUser][key]||{completed:{}};
+ const count=Object.values(mp.completed||{}).filter(Boolean).length;
+ document.getElementById('profileName').textContent=p.displayName||selectedUser;
+ document.getElementById('profileBadge').innerHTML=`<span class="badge Default">${escapeHtml(m.label)} · ${escapeHtml(m.title)}</span>`;
+ document.getElementById('pCompleted').textContent=count+'/'+days.length;document.getElementById('pProgress').textContent=pct(count,days.length)+'%';document.getElementById('pStreak').textContent='—';document.getElementById('pBest').textContent='—';document.getElementById('pBar').style.width=pct(count,days.length)+'%';
+ document.getElementById('journeyStrip').innerHTML=days.map(d=>`<div class="journey-dot ${mp.completed?.[d.day]?'done':d.type==='recovery'?'rest':d.day===today?'next':''}">${d.day}</div>`).join('');
+ const cur=days.find(d=>d.day===today)||days.find(d=>!mp.completed?.[d.day])||days[days.length-1];
+ document.getElementById('heroTask').innerHTML=cur?`<div class="card hero-task"><div class="hero-day">${m.label} · DAY ${cur.day}</div><div class="hero-name">${escapeHtml(cur.title)}</div><div class="hero-target">${cur.type==='recovery'?'Recovery / light mobility':cur.exercises.map(x=>x.label+(x.seconds?' '+x.seconds+' sec':x.seconds_per_side?' '+x.seconds_per_side+' sec/side':x.reps?' × '+x.reps:'')).join(' · ')}</div></div>`:'';
+ document.getElementById('todayWorkout').innerHTML='';
+ document.getElementById('daysList').innerHTML=days.map(d=>{const done=!!mp.completed?.[d.day],locked=d.day>today;const target=d.type==='recovery'?(d.note||'Recovery / light mobility'):d.exercises.map(x=>x.label+(x.seconds?' · '+x.seconds+' sec':x.seconds_per_side?' · '+x.seconds_per_side+' sec/side':x.reps?' · '+x.reps+' reps':'')).join(' • ');return `<div class="day ${done?'complete':''} ${d.day===today?'current':''} ${locked?'locked':''}"><div class="day-num">${done?'✓':d.day}</div><div><div class="exercise">${escapeHtml(d.title)}</div><div class="target">${escapeHtml(target)}</div></div><button class="check" ${locked?'disabled':''} onclick="toggleMonthlyDay(${d.day})">${done?'✓':'○'}</button></div>`}).join('');
+ return true;
+}
+function toggleMonthlyDay(day){
+ const key=currentMonthKey(),m=activeMonthConfig();if(!m)return;ensureMonthlyArchitecture();
+ const mp=state.monthProgress[selectedUser][key]=state.monthProgress[selectedUser][key]||{completed:{}};
+ mp.completed=mp.completed||{};mp.completed[day]=!mp.completed[day];saveState();renderMonthlyProfile();renderHome();
+}
+function renderProfile(){if(renderMonthlyProfile())return;preserveOpenDetailsFromDom();const p=state.profiles[selectedUser],schedule=SCHEDULES[p.profile],count=completedCount(selectedUser),[cur,best]=streaks(selectedUser),day=challengeDay();document.getElementById('profileName').textContent=p.displayName||selectedUser;document.getElementById('profileBadge').innerHTML=`<span class="badge ${p.profile}">${p.profile}</span>`;document.getElementById('pCompleted').textContent=count+'/30';document.getElementById('pProgress').textContent=pct(count,30)+'%';document.getElementById('pStreak').textContent=cur;document.getElementById('pBest').textContent=best;document.getElementById('pBar').style.width=pct(count,30)+'%';
 
  const unfinishedNow=schedule.map((item,idx)=>({n:idx+1,ex:item[0],target:item[1]})).find(x=>!p.completed?.[x.n]);renderJourney(p,schedule);renderTodayWorkout(p,schedule,unfinishedNow);
 
