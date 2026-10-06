@@ -620,6 +620,9 @@ header{display:none!important}
 
 /* v26 monthly workout boxes */
 .monthly-day-box{align-items:flex-start!important}.monthly-day-content{min-width:0;flex:1}.monthly-exercise-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}.monthly-exercise-card{background:#f5f8fa;border:1px solid #e1e8ee;border-radius:12px;padding:10px;text-align:center}.monthly-exercise-card span{display:block;font-size:.65rem;font-weight:900;letter-spacing:.08em;color:#6c7d8d}.monthly-exercise-card strong{display:block;font-size:1rem;margin-top:4px}.monthly-timer{font-size:1.35rem;font-weight:900;margin:7px 0 5px}.monthly-timer-actions{display:flex;gap:5px;justify-content:center}.monthly-timer-actions button{padding:6px 9px;font-size:.72rem}@media(max-width:560px){.monthly-exercise-grid{grid-template-columns:1fr}.monthly-exercise-card{text-align:left}.monthly-timer-actions{justify-content:flex-start}}
+
+/* v29 September-style October workout timer */
+.monthly-side-sequence{font-size:.72rem;font-weight:850;color:#536a7d;margin:8px 0 2px;letter-spacing:.02em}.monthly-exercise-card .sport-phase{font-size:.72rem;font-weight:900;letter-spacing:.12em;color:#2e6c9e;margin-top:8px}.monthly-timer{font-variant-numeric:tabular-nums;font-size:2rem!important;line-height:1;font-weight:950!important}.monthly-timer-actions button{min-width:82px;font-weight:850}.monthly-exercise-card:first-child{border:2px solid #d6e5ef;background:#fff}.monthly-day-box.current .monthly-exercise-card:first-child{border-color:#2e8abe}
 </style>
 <!-- BUILD: plank-push-v10-blue-hero -->
 <!-- BUILD: everwell-v27-wakelock-diagnostic -->
@@ -1579,7 +1582,7 @@ function renderMonthlyProfile(){
     <div class="day-num">${done?'✓':d.day}</div>
     <div class="monthly-day-content"><div class="exercise">${escapeHtml(d.title)}</div>
       <div class="monthly-exercise-grid">
-       ${plank?`<div class="monthly-exercise-card"><span>PLANK</span><strong>${escapeHtml(plankText)}</strong><div id="timer-phase-${timerId}" class="sport-phase">${plank?.seconds_per_side?'LEFT SIDE':'PLANK'}</div><div id="timer-${timerId}" class="monthly-timer">${formatSeconds(secs)}</div><div class="monthly-timer-actions"><button ${locked?'disabled':''} onclick="startTimer('${timerId}',${secs},${!!plank?.seconds_per_side})">Start</button><button class="soft" onclick="stopTimer('${timerId}')">Stop</button></div></div>`:''}
+       ${plank?`<div class="monthly-exercise-card"><span>PLANK</span><strong>${escapeHtml(plankText)}</strong><div class="monthly-side-sequence">${plank?.seconds_per_side?`LEFT ${secs}s → 10s CHANGE → RIGHT ${secs}s`:`TARGET ${secs}s`}</div><div id="timer-phase-${timerId}" class="sport-phase">GET READY</div><div id="timer-${timerId}" class="monthly-timer">${formatSeconds(secs)}</div><div class="monthly-timer-actions"><button id="timer-main-${timerId}" class="primary" ${locked?'disabled':''} onclick="startOrPauseMonthlyTimer('${timerId}',${secs},${!!plank?.seconds_per_side})">START</button><button class="soft" ${locked?'disabled':''} onclick="resetMonthlyTimer('${timerId}')">RESET</button></div></div>`:''}
        ${push?`<div class="monthly-exercise-card"><span>PUSH-UPS</span><strong>${push.reps} reps</strong></div>`:''}
        ${third?`<div class="monthly-exercise-card"><span>${escapeHtml(third.label.toUpperCase())}</span><strong>${third.reps||''} reps</strong></div>`:''}
       </div>
@@ -1615,29 +1618,57 @@ const list=document.getElementById('daysList');list.innerHTML='';const items=sch
 }
 function jumpToToday(){if(!selectedUser)return;const p=state.profiles[selectedUser],day=challengeDay();let targetDay=null;if(day>0&&day<=30&&!p.completed?.[day])targetDay=day;if(targetDay===null){for(let n=Math.min(day,30);n>=1;n--){if(!p.completed?.[n]){targetDay=n;break}}}if(targetDay===null){for(let n=Math.max(day+1,1);n<=30;n++){if(!p.completed?.[n]){targetDay=n;break}}}if(targetDay===null)targetDay=Math.min(Math.max(day,1),30);const el=document.getElementById('day-'+targetDay);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}function parseTime(t){let m=t.match(/(\d+)\s*min/),s=t.match(/(\d+)\s*sec/);return m?+m[1]*60:s?+s[1]:0}function formatSeconds(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
 const simpleTimerMeta={};
-function startTimer(id,seconds,isSide=false){
- stopTimer(id);requestEverwellWakeLock('simple:'+id);
- const el=document.getElementById('timer-'+id),phase=document.getElementById('timer-phase-'+id);
- let stage=isSide?'left':'work',remain=seconds;
- simpleTimerMeta[id]={seconds,isSide,stage};
- if(el)el.textContent=formatSeconds(remain);if(phase)phase.textContent=isSide?'LEFT SIDE':'PLANK';
- speakCoach('1, 2, 3, GO');
- const tick=()=>{remain--;if(el)el.textContent=formatSeconds(Math.max(0,remain));
-   if(remain===Math.floor(seconds/2)&&seconds>20)speakCoach('Half way there');
-   if(remain===10&&seconds>10)speakCoach('Ten seconds to go');
-   if(remain<=0){
-    clearInterval(timers[id]);delete timers[id];
-    if(isSide&&stage==='left'){
-      stage='transition';remain=10;if(phase)phase.textContent='CHANGE SIDE';if(el)el.textContent=formatSeconds(remain);speakCoach('Change side');
-      timers[id]=setInterval(()=>{remain--;if(el)el.textContent=formatSeconds(Math.max(0,remain));if(remain<=0){clearInterval(timers[id]);stage='right';remain=seconds;if(phase)phase.textContent='RIGHT SIDE';if(el)el.textContent=formatSeconds(remain);speakCoach('GO');timers[id]=setInterval(tick,1000)}},1000);
-    }else{
-      releaseEverwellWakeLock('simple:'+id);if(phase)phase.textContent='✓ COMPLETE';playTimerSound();speakCoach('Well done');showSaved('Plank complete!');
-    }
-   }
- };
- timers[id]=setInterval(tick,1000);
+function setupMonthlyTimer(id,seconds,isSide){
+ if(simpleTimerMeta[id])return simpleTimerMeta[id];
+ return simpleTimerMeta[id]={seconds,isSide,phase:'ready',remain:seconds,interval:null,running:false,half:false,ten:false};
 }
-function stopTimer(id){if(timers[id])clearInterval(timers[id]);delete timers[id];delete simpleTimerMeta[id];releaseEverwellWakeLock('simple:'+id)}
+function updateMonthlyTimer(id){
+ const t=simpleTimerMeta[id];if(!t)return;
+ const el=document.getElementById('timer-'+id),phase=document.getElementById('timer-phase-'+id),btn=document.getElementById('timer-main-'+id);
+ if(el)el.textContent=formatSeconds(Math.max(0,t.remain));
+ if(phase)phase.textContent=t.phase==='ready'?'GET READY':t.phase==='left'?'LEFT SIDE':t.phase==='transition'?'CHANGE SIDE':t.phase==='right'?'RIGHT SIDE':t.phase==='work'?'PLANK':t.phase==='done'?'✓ COMPLETE':'PAUSED';
+ if(btn)btn.textContent=t.running?'PAUSE':(t.phase==='ready'?'START':t.phase==='done'?'START':'RESUME');
+}
+function runMonthlyTimer(id){
+ const t=simpleTimerMeta[id];if(!t)return;
+ clearInterval(t.interval);
+ t.interval=setInterval(()=>{
+  t.remain--;
+  if((t.phase==='left'||t.phase==='right'||t.phase==='work')){
+   if(!t.half&&t.remain===Math.floor(t.seconds/2)&&t.seconds>20){t.half=true;speakCoach('Half way there')}
+   if(!t.ten&&t.remain===10&&t.seconds>10){t.ten=true;speakCoach('Ten seconds to go')}
+  }
+  updateMonthlyTimer(id);
+  if(t.remain<=0){
+   clearInterval(t.interval);t.interval=null;
+   if(t.isSide&&t.phase==='left'){
+    t.phase='transition';t.remain=10;t.half=false;t.ten=false;updateMonthlyTimer(id);vibrate([80,80,80]);speakCoach('Change side');runMonthlyTimer(id);
+   }else if(t.isSide&&t.phase==='transition'){
+    t.phase='right';t.remain=t.seconds;t.half=false;t.ten=false;updateMonthlyTimer(id);speakCoach('GO');runMonthlyTimer(id);
+   }else{
+    t.phase='done';t.running=false;t.remain=0;updateMonthlyTimer(id);releaseEverwellWakeLock('monthly:'+id);vibrate([120,80,180]);speakCoach('Well done');playTimerSound();
+   }
+  }
+ },1000);
+}
+function startOrPauseMonthlyTimer(id,seconds,isSide=false){
+ const t=setupMonthlyTimer(id,seconds,isSide);
+ if(t.phase==='done'){resetMonthlyTimer(id);return startOrPauseMonthlyTimer(id,seconds,isSide)}
+ if(t.running){
+  t.running=false;clearInterval(t.interval);t.interval=null;releaseEverwellWakeLock('monthly:'+id);if('speechSynthesis'in window)window.speechSynthesis.pause();updateMonthlyTimer(id);return;
+ }
+ t.running=true;requestEverwellWakeLock('monthly:'+id);if('speechSynthesis'in window)window.speechSynthesis.resume();
+ if(t.phase==='ready'){
+  t.phase=isSide?'left':'work';t.remain=seconds;t.half=false;t.ten=false;updateMonthlyTimer(id);
+  speakCoach('1, 2, 3, GO',()=>runMonthlyTimer(id));
+ }else runMonthlyTimer(id);
+ updateMonthlyTimer(id);
+}
+function resetMonthlyTimer(id){
+ const t=simpleTimerMeta[id];if(!t)return;
+ clearInterval(t.interval);releaseEverwellWakeLock('monthly:'+id);if('speechSynthesis'in window)window.speechSynthesis.cancel();
+ t.phase='ready';t.remain=t.seconds;t.running=false;t.half=false;t.ten=false;t.interval=null;updateMonthlyTimer(id);
+}
 
 const GROUP_MILESTONES=[25,50,75,100];
 function groupProgressPercent(){
