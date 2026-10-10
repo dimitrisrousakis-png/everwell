@@ -1571,7 +1571,7 @@ function renderMonthlyProfile(){
  const cur=days.find(d=>d.day===today)||days.find(d=>!mp.completed?.[d.day])||days[days.length-1];
  document.getElementById('heroTask').innerHTML=cur?`<div class="card hero-task"><div class="hero-day">${m.label} · DAY ${cur.day}</div><div class="hero-name">${escapeHtml(cur.title)}</div><div class="hero-target">${cur.type==='recovery'?'Recovery / light mobility':cur.exercises.map(x=>x.label+(x.seconds?' '+x.seconds+' sec':x.seconds_per_side?' '+x.seconds_per_side+' sec/side':x.reps?' × '+x.reps:'')).join(' · ')}</div></div>`:'';
  document.getElementById('todayWorkout').innerHTML='';
- document.getElementById('daysList').innerHTML=days.map(d=>{
+ document.getElementById('daysList').innerHTML=[...days].sort((a,b)=>Number(!!mp.completed?.[a.day])-Number(!!mp.completed?.[b.day])||a.day-b.day).map(d=>{
    const done=!!mp.completed?.[d.day],locked=d.day>today;
    if(d.type==='recovery')return `<div class="day monthly-day-box ${done?'complete':''} ${d.day===today?'current':''} ${locked?'locked':''}"><div class="day-num">${done?'✓':d.day}</div><div class="monthly-day-content"><div class="exercise">Recovery Day</div><div class="target">${escapeHtml(d.note||'Rest, walk, or light mobility.')}</div></div><button class="check" ${locked?'disabled':''} onclick="toggleMonthlyDay(${d.day})">${done?'✓':'○'}</button></div>`;
    const plank=d.exercises.find(x=>/plank/i.test(x.type||x.label||'')),push=d.exercises.find(x=>/push/i.test(x.type||x.label||'')),third=d.exercises.find(x=>x!==plank&&x!==push);
