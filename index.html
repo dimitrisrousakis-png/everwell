@@ -623,6 +623,9 @@ header{display:none!important}
 
 /* v29 September-style October workout timer */
 .monthly-side-sequence{font-size:.72rem;font-weight:850;color:#536a7d;margin:8px 0 2px;letter-spacing:.02em}.monthly-exercise-card .sport-phase{font-size:.72rem;font-weight:900;letter-spacing:.12em;color:#2e6c9e;margin-top:8px}.monthly-timer{font-variant-numeric:tabular-nums;font-size:2rem!important;line-height:1;font-weight:950!important}.monthly-timer-actions button{min-width:82px;font-weight:850}.monthly-exercise-card:first-child{border:2px solid #d6e5ef;background:#fff}.monthly-day-box.current .monthly-exercise-card:first-child{border-color:#2e8abe}
+
+/* November challenge welcome (29 Oct – 3 Nov 2026) */
+.nov-welcome-overlay{position:fixed;inset:0;background:rgba(24,20,42,.6);z-index:99999;display:flex;align-items:center;justify-content:center;padding:18px}.nov-welcome-overlay.hidden{display:none}.nov-welcome-card{position:relative;background:#fff;border-radius:22px;max-width:420px;width:100%;padding:28px 22px;text-align:center;box-shadow:0 18px 60px rgba(0,0,0,.25);border-top:8px solid #6650a4}.nov-welcome-card h2{color:#4b3888;margin:8px 0;font-size:1.55rem}.nov-welcome-card p{line-height:1.5;color:#4d5362}.nov-welcome-card .nov-kicker{color:#6650a4;font-weight:900;letter-spacing:.12em;font-size:.75rem}.nov-welcome-card .nov-actions{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}.nov-welcome-card .nov-actions button{min-width:115px}.nov-welcome-card .nov-close{position:absolute;right:12px;top:9px;background:transparent;border:0;color:#5c5272;font-size:1.6rem;padding:4px 10px}
 </style>
 <!-- BUILD: plank-push-v10-blue-hero -->
 <!-- BUILD: everwell-v27-wakelock-diagnostic -->
@@ -1877,8 +1880,24 @@ document.addEventListener('keydown',e=>{
  }
 });
 
+
+function closeNovemberWelcome(){document.getElementById('novemberWelcome')?.classList.add('hidden')}
+function openNovemberJourney(){closeNovemberWelcome();showPage('journey')}
+function showNovemberWelcome(){
+ const now=new Date(),day=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+ if(day<'2026-10-29'||day>'2026-11-03')return;
+ const key='everwell-november-welcome-'+day;
+ try{if(localStorage.getItem(key)==='shown')return;localStorage.setItem(key,'shown')}catch(e){}
+ const active=day>='2026-11-01';
+ const heading=document.getElementById('novWelcomeHeading'),body=document.getElementById('novWelcomeText');
+ if(heading)heading.textContent=active?'Welcome to the November Challenge!':'November Challenge is Coming!';
+ if(body)body.textContent=active?'Our new month has begun: Plank, Push-ups and Dumbbell Rows. Keep building strength, one training day at a time.':'Starting November 1: Plank, Push-ups and Dumbbell Rows. A new month, a new movement, and the same Everwell journey. Get ready!';
+ document.getElementById('novemberWelcome')?.classList.remove('hidden');
+}
+
 renderLastSynced();
 renderHome();
+showNovemberWelcome();
 initializeCloud();
 if('serviceWorker' in navigator){
  window.addEventListener('load',async()=>{
@@ -1891,6 +1910,14 @@ if('serviceWorker' in navigator){
 </script>
 
 
+
+<div id="novemberWelcome" class="nov-welcome-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="novWelcomeHeading">
+ <div class="nov-welcome-card"><button class="nov-close" onclick="closeNovemberWelcome()" aria-label="Close welcome">×</button>
+  <div class="nov-kicker">EVERWELL · MOVE · FEEL · LIVE BETTER</div><div style="font-size:2.5rem;margin:10px 0">💜</div>
+  <h2 id="novWelcomeHeading">November Challenge is Coming!</h2><p id="novWelcomeText"></p>
+  <div class="nov-actions"><button class="primary" onclick="openNovemberJourney()">View Journey</button><button class="soft" onclick="closeNovemberWelcome()">Got it</button></div>
+ </div>
+</div>
 <div id="pinModal" class="pin-modal hidden">
   <div class="pin-card">
     <h3>Admin access</h3>
