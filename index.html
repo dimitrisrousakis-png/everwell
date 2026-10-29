@@ -1881,7 +1881,7 @@ document.addEventListener('keydown',e=>{
 });
 
 
-function closeNovemberWelcome(){document.getElementById('novemberWelcome')?.classList.add('hidden');const day=new Date().toLocaleDateString('en-CA');try{localStorage.setItem('everwell-november-welcome-v33-'+day,'shown')}catch(e){}}
+function closeNovemberWelcome(){document.getElementById('novemberWelcome')?.classList.add('hidden');const n=new Date(),day=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');try{localStorage.setItem('everwell-november-welcome-v33-'+day,'shown')}catch(e){}}
 function openNovemberJourney(){closeNovemberWelcome();showPage('journey')}
 function showNovemberWelcome(){
  const now=new Date(),day=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
