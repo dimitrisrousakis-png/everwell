@@ -1897,7 +1897,7 @@ function showNovemberWelcome(){
 
 renderLastSynced();
 renderHome();
-showNovemberWelcome();
+window.addEventListener('DOMContentLoaded',showNovemberWelcome);
 initializeCloud();
 if('serviceWorker' in navigator){
  window.addEventListener('load',async()=>{
