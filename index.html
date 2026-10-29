@@ -1881,23 +1881,25 @@ document.addEventListener('keydown',e=>{
 });
 
 
-function closeNovemberWelcome(){document.getElementById('novemberWelcome')?.classList.add('hidden')}
+function closeNovemberWelcome(){document.getElementById('novemberWelcome')?.classList.add('hidden');const day=new Date().toLocaleDateString('en-CA');try{localStorage.setItem('everwell-november-welcome-v33-'+day,'shown')}catch(e){}}
 function openNovemberJourney(){closeNovemberWelcome();showPage('journey')}
 function showNovemberWelcome(){
  const now=new Date(),day=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
  if(day<'2026-10-29'||day>'2026-11-03')return;
- const key='everwell-november-welcome-'+day;
- try{if(localStorage.getItem(key)==='shown')return;localStorage.setItem(key,'shown')}catch(e){}
+ const popup=document.getElementById('novemberWelcome');
+ if(!popup)return;
+ const key='everwell-november-welcome-v33-'+day;
+ try{if(localStorage.getItem(key)==='shown')return}catch(e){}
  const active=day>='2026-11-01';
  const heading=document.getElementById('novWelcomeHeading'),body=document.getElementById('novWelcomeText');
  if(heading)heading.textContent=active?'Welcome to the November Challenge!':'November Challenge is Coming!';
  if(body)body.textContent=active?'Our new month has begun: Plank, Push-ups and Dumbbell Rows. Keep building strength, one training day at a time.':'Starting November 1: Plank, Push-ups and Dumbbell Rows. A new month, a new movement, and the same Everwell journey. Get ready!';
- document.getElementById('novemberWelcome')?.classList.remove('hidden');
+ popup.classList.remove('hidden');
 }
 
 renderLastSynced();
 renderHome();
-window.addEventListener('DOMContentLoaded',showNovemberWelcome);
+if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',showNovemberWelcome);else showNovemberWelcome();
 initializeCloud();
 if('serviceWorker' in navigator){
  window.addEventListener('load',async()=>{
