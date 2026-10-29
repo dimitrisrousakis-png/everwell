@@ -1569,7 +1569,7 @@ function renderMonthlyProfile(){
  document.getElementById('pCompleted').textContent=count+'/'+days.length;document.getElementById('pProgress').textContent=pct(count,days.length)+'%';document.getElementById('pStreak').textContent='—';document.getElementById('pBest').textContent='—';document.getElementById('pBar').style.width=pct(count,days.length)+'%';
  document.getElementById('journeyStrip').innerHTML=days.map(d=>`<div class="journey-dot ${mp.completed?.[d.day]?'done':d.type==='recovery'?'rest':d.day===today?'next':''}">${d.day}</div>`).join('');
  const cur=days.find(d=>d.day===today)||days.find(d=>!mp.completed?.[d.day])||days[days.length-1];
- document.getElementById('heroTask').innerHTML=cur?`<div class="card hero-task"><div class="hero-day">${m.label} · DAY ${cur.day}</div><div class="hero-name">${escapeHtml(cur.title)}</div><div class="hero-target">${cur.type==='recovery'?'Recovery / light mobility':cur.exercises.map(x=>x.label+(x.seconds?' '+x.seconds+' sec':x.seconds_per_side?' '+x.seconds_per_side+' sec/side':x.reps?' × '+x.reps:'')).join(' · ')}</div></div>`:'';
+ document.getElementById('heroTask').innerHTML=cur?`<div class="card hero-task"><div class="hero-day">${m.label} · DAY ${cur.day}</div><div class="hero-name">${escapeHtml(cur.title)}</div><div class="hero-target">${cur.type==='recovery'?'Recovery / light mobility':cur.exercises.map(x=>x.label+(x.seconds?' '+x.seconds+' sec':x.seconds_per_side?' '+x.seconds_per_side+' sec/side':x.reps_per_side?' × '+x.reps_per_side+' / side':x.reps?' × '+x.reps:'')).join(' · ')}</div></div>`:'';
  document.getElementById('todayWorkout').innerHTML='';
  document.getElementById('daysList').innerHTML=[...days].sort((a,b)=>Number(!!mp.completed?.[a.day])-Number(!!mp.completed?.[b.day])||a.day-b.day).map(d=>{
    const done=!!mp.completed?.[d.day],locked=d.day>today;
@@ -1584,7 +1584,7 @@ function renderMonthlyProfile(){
       <div class="monthly-exercise-grid">
        ${plank?`<div class="monthly-exercise-card"><span>PLANK</span><strong>${escapeHtml(plankText)}</strong><div class="monthly-side-sequence">${plank?.seconds_per_side?`LEFT ${secs}s → 10s CHANGE → RIGHT ${secs}s`:`TARGET ${secs}s`}</div><div id="timer-phase-${timerId}" class="sport-phase">GET READY</div><div id="timer-${timerId}" class="monthly-timer">${formatSeconds(secs)}</div><div class="monthly-timer-actions"><button id="timer-main-${timerId}" class="primary" ${locked?'disabled':''} onclick="startOrPauseMonthlyTimer('${timerId}',${secs},${!!plank?.seconds_per_side})">START</button><button class="soft" ${locked?'disabled':''} onclick="resetMonthlyTimer('${timerId}')">RESET</button></div></div>`:''}
        ${push?`<div class="monthly-exercise-card"><span>PUSH-UPS</span><strong>${push.reps} reps</strong></div>`:''}
-       ${third?`<div class="monthly-exercise-card"><span>${escapeHtml(third.label.toUpperCase())}</span><strong>${third.reps||''} reps</strong></div>`:''}
+       ${third?`<div class="monthly-exercise-card"><span>${escapeHtml(third.label.toUpperCase())}</span><strong>${third.reps_per_side?`${third.reps_per_side} reps / side`:third.reps?`${third.reps} reps`:'Follow plan'}</strong></div>`:''}
       </div>
     </div>
     <button class="check" ${locked?'disabled':''} onclick="toggleMonthlyDay(${d.day})">${done?'✓':'○'}</button>
